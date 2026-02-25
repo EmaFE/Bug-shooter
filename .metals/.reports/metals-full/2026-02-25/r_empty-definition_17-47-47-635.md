@@ -1,3 +1,14 @@
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Viewer.java:_empty_/Model#getController#isKeyNpressed#
+file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Viewer.java
+empty definition using pc, found symbol in pc: _empty_/Model#getController#isKeyNpressed#
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 9979
+uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Viewer.java
+text:
+```scala
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -262,14 +273,6 @@ public class Viewer extends JPanel {
 			g.drawString("[Y] Yes", x + 80, y + 120);
     	g.drawString("[N] No", x + 220, y + 120);
 
-			if (gameworld.getController().isKeyYpressed()){
-				gameworld.setAcceptedHouse(true);
-				gameworld.setShowHousePopUp(false);
-			} else if (gameworld.getController().isKeyNpressed()){
-				gameworld.setAcceptedHouse(false);
-				gameworld.setShowHousePopUp(false);
-			}
-
 			
 			
 		} catch (Exception e) {
@@ -300,7 +303,7 @@ public class Viewer extends JPanel {
 			if (gameworld.getController().isKeyYpressed()){
 				gameworld.setAcceptedBullet(true);
 				gameworld.setShowBulletPopUp(false);
-			} else if (gameworld.getController().isKeyNpressed()){
+			} else if (gameworld.getController().isKeyNp@@ressed()){
 				gameworld.setAcceptedBullet(false);
 				gameworld.setShowBulletPopUp(false);
 			}
@@ -312,3 +315,9 @@ public class Viewer extends JPanel {
 	}
 
 }
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: _empty_/Model#getController#isKeyNpressed#

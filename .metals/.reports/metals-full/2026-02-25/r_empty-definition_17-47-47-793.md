@@ -1,3 +1,14 @@
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Viewer.java:java/awt/Graphics#create(+1).
+file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Viewer.java
+empty definition using pc, found symbol in pc: java/awt/Graphics#create(+1).
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 9364
+uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Viewer.java
+text:
+```scala
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -262,14 +273,6 @@ public class Viewer extends JPanel {
 			g.drawString("[Y] Yes", x + 80, y + 120);
     	g.drawString("[N] No", x + 220, y + 120);
 
-			if (gameworld.getController().isKeyYpressed()){
-				gameworld.setAcceptedHouse(true);
-				gameworld.setShowHousePopUp(false);
-			} else if (gameworld.getController().isKeyNpressed()){
-				gameworld.setAcceptedHouse(false);
-				gameworld.setShowHousePopUp(false);
-			}
-
 			
 			
 		} catch (Exception e) {
@@ -285,7 +288,7 @@ public class Viewer extends JPanel {
 		int y = (1000 - 200) / 2;
 
 		try {
-			g.create(x, y, width, height);
+			g.create@@(x, y, width, height);
 			g.setColor(new Color(200,200,200));
 			g.fillRect(x, y, width, height);
 
@@ -312,3 +315,9 @@ public class Viewer extends JPanel {
 	}
 
 }
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: java/awt/Graphics#create(+1).
