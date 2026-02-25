@@ -68,12 +68,10 @@ public class Viewer extends JPanel {
 		this.repaint();		
 	}
 	
-	
 	public void paintComponent(Graphics g) {
 		
 		super.paintComponent(g);
 		CurrentAnimationTime++; // runs animation time step 
-		
 		
 		//Draw player Game Object 
 		int x = (int) gameworld.getPlayer().getCentre().getX();
@@ -83,29 +81,24 @@ public class Viewer extends JPanel {
 		String texture = gameworld.getPlayer().getTexture();
 
 		drawUpperBackground(g);
-
 		drawHouse(g);
-		
-		//Draw background 
 		drawBackground(g);
-		
-		//Draw player
+		drawHealthPlayer(g);
+		drawHealthHouse(g);
 		drawPlayer(x, y, width, height, texture,g);
 		  
-		//Draw Bullets 
 		//change back 
-		gameworld.getBullets().forEach((temp) ->{ 
-			drawBullet((int) temp.getCentre().getX(), (int) temp.getCentre().getY(), (int) temp.getWidth(), (int) temp.getHeight(), temp.getTexture(),g);	 
+		gameworld.getBullets().forEach((bullet) ->{ 
+			drawBullet((int) bullet.getCentre().getX(), (int) bullet.getCentre().getY(), (int) bullet.getWidth(), (int) bullet.getHeight(), bullet.getTexture(),g);	 
 		}); 
-		
-		//Draw Enemies   
-		gameworld.getEnemies().forEach((temp) ->{
-			drawEnemies((int) temp.getCentre().getX(), (int) temp.getCentre().getY(), (int) temp.getWidth(), (int) temp.getHeight(), temp.getTexture(),g);	 
+		 
+		gameworld.getEnemies().forEach((enemy) ->{
+			drawEnemies((int) enemy.getCentre().getX(), (int) enemy.getCentre().getY(), (int) enemy.getWidth(), (int) enemy.getHeight(), enemy.getTexture(),g);	 
 	  }); 
 	}
 	
 	private void drawEnemies(int x, int y, int width, int height, String texture, Graphics g) {
-		File TextureToLoad = new File(texture);  //should work okay on OSX and Linux but check if you have issues depending your eclipse install or if your running this without an IDE 
+		File TextureToLoad = new File(texture);
 		try {
 			Image myImage = ImageIO.read(TextureToLoad);
 			//The spirte is 32x32 pixel wide and 4 of them are placed together so we need to grab a different one each time 
@@ -121,7 +114,7 @@ public class Viewer extends JPanel {
 	}
 
 	private void drawBackground(Graphics g){
-		File TextureToLoad = new File("res/dirt1.png");  //should work okay on OSX and Linux but check if you have issues depending your eclipse install or if your running this without an IDE 
+		File TextureToLoad = new File("res/dirt1.png");  
 		try {
 			Image myImage = ImageIO.read(TextureToLoad); 
 			 g.drawImage(myImage, 0,250, 1000, 1000, 0 , 0, 200, 200, null); 
@@ -133,7 +126,7 @@ public class Viewer extends JPanel {
 	}
 	
 	private void drawBullet(int x, int y, int width, int height, String texture,Graphics g){
-		File TextureToLoad = new File(texture);  //should work okay on OSX and Linux but check if you have issues depending your eclipse install or if your running this without an IDE 
+		File TextureToLoad = new File(texture);
 		try {
 			Image myImage = ImageIO.read(TextureToLoad); 
 			//64 by 128 
@@ -145,9 +138,8 @@ public class Viewer extends JPanel {
 		}
 	}
 	
-
 	private void drawPlayer(int x, int y, int width, int height, String texture,Graphics g) { 
-		File TextureToLoad = new File(texture);  //should work okay on OSX and Linux but check if you have issues depending your eclipse install or if your running this without an IDE 
+		File TextureToLoad = new File(texture); 
 		try {
 			Image myImage = ImageIO.read(TextureToLoad);
 			//The spirte is 32x32 pixel wide and 4 of them are placed together so we need to grab a different one each time 
@@ -168,8 +160,8 @@ public class Viewer extends JPanel {
 	}
 
 		private void drawUpperBackground(Graphics g){
-		File TextureToLoad = new File("res/grass2.png");  //should work okay on OSX and Linux but check if you have issues depending your eclipse install or if your running this without an IDE 
-		try {
+		File TextureToLoad = new File("res/grass2.png");
+		try{
 			Image myImage = ImageIO.read(TextureToLoad); 
 			 g.drawImage(myImage, 0,0, 1000, 250, 0 , 300, 300, 480, null); 
 			
@@ -180,13 +172,41 @@ public class Viewer extends JPanel {
 	}
 
 	private void drawHouse(Graphics g){
-		File TextureToLoad = new File("res/house.png");  //should work okay on OSX and Linux but check if you have issues depending your eclipse install or if your running this without an IDE 
+		File TextureToLoad = new File("res/house.png");
 		try {
 			Image myImage = ImageIO.read(TextureToLoad); 
 			 g.drawImage(myImage, 45,75, 170, 260, 0 , 0, 64, 64, null); 
 			
 		} catch (IOException e) {
 			System.out.println("Error drawing the house");
+			e.printStackTrace();
+		}
+	}
+
+	private void drawHealthHouse(Graphics g){
+		int life = gameworld.getHouseLife();
+		File TextureToLoad = new File("res/houseHealth/VIDA_" + life + ".png");
+		try {
+			Image myImage = ImageIO.read(TextureToLoad); 
+			//shrink image
+			 g.drawImage(myImage, 35, 15, (int)((35+378)*0.5), (int)((15+38)*0.5), 0, 0, 378, 38, null); 
+			
+		} catch (IOException e) {
+			System.out.println("Error drawing the health house bar");
+			e.printStackTrace();
+		}
+	}
+
+	private void drawHealthPlayer(Graphics g){
+		int life = gameworld.getHumanLife();
+		File TextureToLoad = new File("res/playerHealth/" + life +".png");
+		try {
+			Image myImage = ImageIO.read(TextureToLoad); 
+
+			 g.drawImage(myImage, 800,15, 800+54, 15+17, 0 , 0, 54, 17, null); 
+			
+		} catch (IOException e) {
+			System.out.println("Error drawing the health player hearts");
 			e.printStackTrace();
 		}
 	}

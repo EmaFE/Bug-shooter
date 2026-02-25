@@ -9,35 +9,35 @@ import util.Vector3f;
  * Created by Abraham Campbell on 15/01/2020.
  *   Copyright (c) 2020  Abraham Campbell
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-   
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+		
    (MIT LICENSE ) e.g do what you want with this :-) 
  */ 
+
 public class Model {
 	
 	private GameObject player;
 	private Controller controller = Controller.getInstance();
 	//some bugs have 2 lives, so they need to be shot twice + some are faster
-	private CopyOnWriteArrayList<GameObject> EnemiesList  = new CopyOnWriteArrayList<GameObject>();
-	private CopyOnWriteArrayList<GameObject> BulletList  = new CopyOnWriteArrayList<GameObject>();
-	private int Score=0; 
-	private int humanLife = 5;
+	private CopyOnWriteArrayList<GameObject> enemiesList  = new CopyOnWriteArrayList<GameObject>();
+	private CopyOnWriteArrayList<GameObject> bulletList  = new CopyOnWriteArrayList<GameObject>();
+	private int humanLife = 6;
 	private int houseLife = 10;
 	//you get +1 for each bug you kill, so even if you lose your house, you can buy it back if you kill enough bugs while trying to protect your house
 	private int money = 0;
@@ -60,35 +60,36 @@ public class Model {
 		player= new GameObject("res/npcmaleidle.png",32,86,new Point3f(500,165,0));
 		//Enemies  starting with four ''
 
-		while(EnemiesList.size() < 6){
-			EnemiesList.add(generateEnemy());
+		while(enemiesList.size() < 6){
+			enemiesList.add(generateEnemy());
 		}
 	}
 	
 	// This is the heart of the game , where the model takes in all the inputs ,decides the outcomes and then changes the model accordingly. 
 	public void gamelogic(){
-		// Player Logic first 
 		playerLogic(); 
-		// Enemy Logic next
 		enemyLogic();
-		// Bullets move next 
 		bulletLogic();
-		// interactions between objects 
 		gameLogic(); 
 	}
 
-	private void collision(GameObject enemy){
+	private boolean collision(GameObject enemy){
 		float xCenter = enemy.getCentre().getX() + enemy.getWidth()/2.0f;
 		float yCenter = enemy.getCentre().getY() + enemy.getHeight()/2.0f;
 
 		//collision if it's both in center with the house AND underneath the bottom line of the house
 		if(xCenter >= 45 && xCenter <= 45 + 135 && yCenter <= 75 + 185){
 			houseLife--;
+			return true;
 		}
 
+		//collission with the player if it's underneath the player
 		if(xCenter >= player.getCentre().getX() && xCenter <= player.getCentre().getX() + player.getWidth() && yCenter <= player.getCentre().getY() + player.getHeight()){
 			humanLife--;
+			return true;
 		} 
+
+		return false;
 	}
 
 
@@ -97,40 +98,55 @@ public class Model {
 
 		//see if they hit anything 
 		// using enhanced for-loop style as it makes it alot easier both code wise and reading wise too 
-		for (GameObject enemy : EnemiesList){
-			for (GameObject bullet : BulletList){
+		for (GameObject enemy : enemiesList){
+			for (GameObject bullet : bulletList){
 				if ( Math.abs(enemy.getCentre().getX() - bullet.getCentre().getX()) < enemy.getWidth() 
 					&& Math.abs(enemy.getCentre().getY() - bullet.getCentre().getY()) < enemy.getHeight()){
-						EnemiesList.remove(enemy);
-						BulletList.remove(bullet);
+						enemiesList.remove(enemy);
+						bulletList.remove(bullet);
 						setMoney(getMoney() + 1);
 				}  
 			}
-			collision(enemy);
+			
 		}
 	}
 
 	private void enemyLogic() {
-		for (GameObject enemy : EnemiesList){ 
-			  
-			//move enemy up by one
-			//DO - move them around
-			enemy.getCentre().ApplyVector(new Vector3f(0,1,0));
-			 
-			//see if they get to the top of the screen ( remember 0 is the top 
-			// if (enemy.getCentre().getY()==125.0f){  // current boundary need to pass value to model 
-			// 	EnemiesList.remove(enemy);
-			// 	// enemies win so score decreased
-			// 	setHumanLife(getHumanLife() - 1);
-			// 	setMoney(getMoney() - 1);
-			// } 
+
+		for (GameObject enemy : enemiesList){  
+			float targetLocationX = player.getCentre().getX();
+			float targetLocationY = player.getCentre().getY();
+
+			float dx = targetLocationX - enemy.getCentre().getX();
+			float dy = targetLocationY - enemy.getCentre().getY();
+
+			//calculate distance between enemy and target location
+			float length = (float) Math.sqrt(dx * dx + dy * dy);
+			if (length != 0) {
+					dx /= length;
+					dy /= length;
+			}
+
+			//if the enemy has not reached the player, move enemy up by one towards target
+			//dont let the enemy reach ABOVE the player and follow around (wont be able to shoot)
+			if(enemy.getCentre().getY() - (player.getCentre().getY() + player.getHeight()) > 0.01f){
+				enemy.getCentre().ApplyVector(new Vector3f(dx * 1 , dy * 1, 0));
+			} else{
+				enemy.getCentre().ApplyVector(new Vector3f(0, 1, 0));
+			}
+
+			if (collision(enemy) || enemy.getCentre().getY() <= 1.0f){
+				enemiesList.remove(enemy);
+			}
 		}
+		
+
 		//with while it adds more enemies into one frame, as oppsed to adding one each frame if there was only an if statment
-		if (EnemiesList.size() < 4)
+		if (enemiesList.size() < 4)
 		{
-			while (EnemiesList.size() < 4)
+			while (enemiesList.size() < 4)
 			{
-				EnemiesList.add(generateEnemy()); 
+				enemiesList.add(generateEnemy()); 
 			}
 		}
 	}
@@ -138,7 +154,7 @@ public class Model {
 	private void bulletLogic() {
 		// move bullets 
 	  
-		for (GameObject bullet : BulletList){
+		for (GameObject bullet : bulletList){
 		    //check to move them
 			  
 			bullet.getCentre().ApplyVector(new Vector3f(0,-1,0));
@@ -147,7 +163,7 @@ public class Model {
 			//see if they get to the top of the screen ( remember 0 is the top )
 			//anything more that aprox 900, the bullet gets stuck at the bottom
 			if (bullet.getCentre().getY()==900){
-			 	BulletList.remove(bullet);
+			 	bulletList.remove(bullet);
 			} 
 		} 
 	}
@@ -171,7 +187,7 @@ public class Model {
 	}
 
 	private void CreateBullet() {
-		BulletList.add(new GameObject("res/Bullet.png",32,64,new Point3f(player.getCentre().getX(),player.getCentre().getY(),0.0f)));
+		bulletList.add(new GameObject("res/Bullet.png",32,64,new Point3f(player.getCentre().getX(),player.getCentre().getY(),0.0f)));
 	}
 
 	public GameObject getPlayer() {
@@ -179,11 +195,11 @@ public class Model {
 	}
 
 	public CopyOnWriteArrayList<GameObject> getEnemies() {
-		return EnemiesList;
+		return enemiesList;
 	}
 	
 	public CopyOnWriteArrayList<GameObject> getBullets() {
-		return BulletList;
+		return bulletList;
 	}
 
 	public int getMoney() { 
@@ -199,9 +215,9 @@ public class Model {
 		humanLife = newHumanLife;
 	}
 	public int getHouseLife(){
-		return humanLife;
+		return houseLife;
 	}
-	public void setHouseLife(int newHumanLife){
-		humanLife = newHumanLife;
+	public void setHouseLife(int newHouseLife){
+		houseLife = newHouseLife;
 	}
 }
