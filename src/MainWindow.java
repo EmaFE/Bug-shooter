@@ -46,14 +46,14 @@ SOFTWARE.
 
 
 public class MainWindow {
-	 private static  JFrame frame = new JFrame("Not in my house");   // Change to the name of your game 
-	 private static   Model gameworld= new Model();
-	 private static   Viewer canvas = new  Viewer(gameworld);
-	 private KeyListener Controller =new Controller(); 
+	 private static JFrame frame = new JFrame("Bob's Bugs Be Gone");   // Change to the name of your game 
+	 private static Model gameworld= new Model();
+	 private static Viewer canvas = new  Viewer(gameworld);
+	 private KeyListener Controller = new Controller(); 
 	 private MouseListener controllerM = new Controller();
-	 private static   int TargetFPS = 100;
+	 private static int TargetFPS = 100;
 	 private static boolean startGame= false; 
-	 private JLabel BackgroundImageForStartMenu ;
+	 private JLabel BackgroundImageForStartMenu;
 	  
 	public MainWindow() {
 			frame.setSize(1000, 1000);  // you can customise this later and adapt it to change on size.  

@@ -40,7 +40,8 @@ public class Controller implements KeyListener, MouseListener {
 	private static boolean KeySpacePressed= false;
 	private static boolean mouseClickedVar = false;
 
-	private Model model;
+	private static int mouseX;
+	private static int mouseY;
 	
 	private static final Controller instance = new Controller();
 	
@@ -98,6 +99,9 @@ public class Controller implements KeyListener, MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		try {
 			setMouseClicked(true);
+			System.out.println("clicked from Controller: " + isMouseClicked());
+			mouseX = e.getX();
+			mouseY = e.getY();
 		} catch (Exception ex) {
 			throw new UnsupportedOperationException("Unimplemented method 'mouseClicked'");
 		}		
@@ -163,4 +167,13 @@ public class Controller implements KeyListener, MouseListener {
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 	} 	 
+
+	public int getMouseX(){
+		return mouseX;
+	}
+	public int getMouseY(){
+		return mouseY;
+	}
+
+
 }

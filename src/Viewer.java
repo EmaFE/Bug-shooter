@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.LayoutManager;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.TexturePaint;
 import java.awt.image.BufferedImage;
@@ -46,8 +47,10 @@ import util.GameObject;
  */ 
 public class Viewer extends JPanel {
 	private long CurrentAnimationTime= 0; 
+	Rectangle yesBtn = new Rectangle(368, 505, 80, 40);
+	Rectangle noBtn = new Rectangle(508, 505, 80, 40);
 	
-	Model gameworld =new Model(); 
+	Model gameworld = new Model(); 
 	 
 	public Viewer(Model World) {
 		this.gameworld=World;
@@ -281,8 +284,8 @@ public class Viewer extends JPanel {
 	private void drawBulletPopUp(Graphics g) {
 		int width = 400;
 		int height = 200;
-		int x = (1000 - 400) / 2;
-		int y = (1000 - 200) / 2;
+		int x = (1000 - 400) / 2; // = 300
+		int y = (1000 - 200) / 2; // = 400
 
 		try {
 			g.create(x, y, width, height);
@@ -294,10 +297,14 @@ public class Viewer extends JPanel {
 			g.drawString("Want to buy to a bigger bullet? (20 points)", x+60, y+60);
 			g.drawString("Chance will arise again after 20 more point.", x+60, y+80);
 
-			g.drawString("[Y] Yes", x + 80, y + 120);
-    	g.drawString("[N] No", x + 220, y + 120);
+			g.setColor(Color.BLACK);
+			//yes and no "buttons"
+			g.drawRect(368, 505, 80, 40);
+			g.drawRect(508, 505, 80, 40);
+			g.drawString("[Y] Yes", x + 80, y + 130);
+    	g.drawString("[N] No", x + 220, y + 130);
 
-			if (gameworld.getController().isKeyYpressed()){
+			if (gameworld.getController().isKeyYpressed() || isMouseInsideYesButton()){
 				gameworld.setAcceptedBullet(true);
 				gameworld.setShowBulletPopUp(false);
 			} else if (gameworld.getController().isKeyNpressed()){
@@ -309,6 +316,34 @@ public class Viewer extends JPanel {
 			System.out.println("Error drawing the bullet pop up");
 			e.printStackTrace();
 		}
+	}
+
+	public boolean isMouseInsideYesButton(){
+
+		int mouseX = gameworld.getController().getMouseX();
+		int mouseY = gameworld.getController().getMouseY();
+
+		//System.out.println("mouseX: " + mouseX + "mouseY: " + mouseY);
+
+		boolean clicked = gameworld.getController().isMouseClicked();
+
+		// System.out.println("does it contain: " + yesBtn.contains(new Point(mouseX, mouseY)));
+
+		System.out.println("clicked: " + clicked);
+
+		if (clicked && yesBtn.contains(new Point(mouseX, mouseY))){
+			// System.out.println("mouse pressed yes button");
+			return true;
+		}
+
+		// boolean fitsInX = mouseX > 368 && mouseX < 368 + 80;
+		// boolean fitsInY = mouseY > 505 && mouseY < 505 + 40;
+
+		// if(clicked && fitsInX && fitsInY){
+		// 	System.out.println("mouse pressed yes button");
+		// 	return true;
+		// }
+		return false;
 	}
 
 }

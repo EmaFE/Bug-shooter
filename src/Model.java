@@ -109,7 +109,7 @@ public class Model {
 		}
 
 		//modify this to 2 adn remove > 0 for testing purposes
-		if(money > 0 && money % 20 == 0 && !getShowBulletPopUp()){
+		if(money > 0 && money % 2 == 0 && !getShowBulletPopUp()){
 			setShowBulletPopUp(true);
 			setMoney(money - 20);
 		}
@@ -300,6 +300,7 @@ public class Model {
 		this.gameOver = gameOver;
 	}
 	public Controller getController(){
+		System.out.println("clicked from model:" + controller.isMouseClicked());
 		return controller;
 	}
 }
