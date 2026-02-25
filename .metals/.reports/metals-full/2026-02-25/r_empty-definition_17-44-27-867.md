@@ -1,3 +1,14 @@
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Viewer.java:java/awt/Graphics#setColor().
+file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Viewer.java
+empty definition using pc, found symbol in pc: java/awt/Graphics#setColor().
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 9481
+uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Viewer.java
+text:
+```scala
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -89,6 +100,7 @@ public class Viewer extends JPanel {
 		drawHealthPlayer(g);
 		drawHealthHouse(g);
 		drawPlayer(x, y, width, height, texture,g);
+		System.out.println("show bullet pop up boolean: " + gameworld.getShowBulletPopUp());
 		if(gameworld.getShowBulletPopUp()){
 			drawBulletPopUp(g);
 		};
@@ -278,7 +290,7 @@ public class Viewer extends JPanel {
 
 		try {
 			g.create(x, y, width, height);
-			g.setColor(new Color(200,200,200));
+			g.@@setColor(new Color(200,200,200));
 			g.fillRect(x, y, width, height);
 
 			g.setFont(new Font("Arial", Font.BOLD, 15));
@@ -304,3 +316,9 @@ public class Viewer extends JPanel {
 	}
 
 }
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: java/awt/Graphics#setColor().

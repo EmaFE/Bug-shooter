@@ -280,7 +280,6 @@ public class Model {
 	}
 	public void setShowBulletPopUp( boolean newPopUp){
 		showBulletPopUp = newPopUp;
-		System.out.println("pop up in model after change: " + showBulletPopUp);
 	}
   public boolean isAcceptedBullet() {
 		return acceptedBullet;
