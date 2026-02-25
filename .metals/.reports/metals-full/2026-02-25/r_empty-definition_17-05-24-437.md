@@ -1,3 +1,14 @@
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Viewer.java:_empty_/Model#setShowBulletPopUp#
+file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Viewer.java
+empty definition using pc, found symbol in pc: _empty_/Model#setShowBulletPopUp#
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 10042
+uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Viewer.java
+text:
+```scala
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -293,7 +304,7 @@ public class Viewer extends JPanel {
 			if (gameworld.getController().isKeyYpressed()){
 				System.out.println("enetered is key Y pressed");
 				gameworld.setAcceptedBullet(true);
-				gameworld.setShowBulletPopUp(false);
+				gameworld.setSh@@owBulletPopUp(false);
 				System.out.println("pop up boolean in viewer: " + gameworld.getShowBulletPopUp());
 			} else if (gameworld.getController().isKeyNpressed()){
 				gameworld.setAcceptedBullet(false);
@@ -307,3 +318,9 @@ public class Viewer extends JPanel {
 	}
 
 }
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: _empty_/Model#setShowBulletPopUp#

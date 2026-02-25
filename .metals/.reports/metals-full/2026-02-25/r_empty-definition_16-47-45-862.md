@@ -1,3 +1,14 @@
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/MainWindow.java:_empty_/Controller#
+file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/MainWindow.java
+empty definition using pc, found symbol in pc: _empty_/Controller#
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 2075
+uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/MainWindow.java
+text:
+```scala
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Image;
@@ -50,7 +61,7 @@ public class MainWindow {
 	 private static   Model gameworld= new Model();
 	 private static   Viewer canvas = new  Viewer(gameworld);
 	 private KeyListener Controller =new Controller(); 
-	 private MouseListener controllerM = new Controller();
+	 private MouseListener controllerM = new Controlle@@r();
 	 private static   int TargetFPS = 100;
 	 private static boolean startGame= false; 
 	 private JLabel BackgroundImageForStartMenu ;
@@ -131,3 +142,9 @@ public class MainWindow {
 		 frame.setTitle("Money =  "+ gameworld.getMoney()); 
 	}
 }
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: _empty_/Controller#

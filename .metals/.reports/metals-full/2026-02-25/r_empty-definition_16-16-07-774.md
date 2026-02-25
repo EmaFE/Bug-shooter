@@ -1,3 +1,14 @@
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Model.java:_empty_/GameObject#getWidth#
+file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Model.java
+empty definition using pc, found symbol in pc: _empty_/GameObject#getWidth#
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 3953
+uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Model.java
+text:
+```scala
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -99,7 +110,7 @@ public class Model {
 		// using enhanced for-loop style as it makes it alot easier both code wise and reading wise too 
 		for (GameObject enemy : enemiesList){
 			for (GameObject bullet : bulletList){
-				if ( Math.abs(enemy.getCentre().getX() - bullet.getCentre().getX()) < enemy.getWidth() 
+				if ( Math.abs(enemy.getCentre().getX() - bullet.getCentre().getX()) < enemy.getW@@idth() 
 					&& Math.abs(enemy.getCentre().getY() - bullet.getCentre().getY()) < enemy.getHeight()){
 						enemiesList.remove(enemy);
 						bulletList.remove(bullet);
@@ -109,7 +120,7 @@ public class Model {
 		}
 
 		//modify this to 2 adn remove > 0 for testing purposes
-		if(money > 0 && money % 20 == 0 && !getShowBulletPopUp()){
+		if( money % 20 == 0 && !getShowBulletPopUp()){
 			setShowBulletPopUp(true);
 			setMoney(money - 20);
 		}
@@ -280,7 +291,6 @@ public class Model {
 	}
 	public void setShowBulletPopUp( boolean newPopUp){
 		showBulletPopUp = newPopUp;
-		System.out.println("pop up in model after change: " + showBulletPopUp);
 	}
   public boolean isAcceptedBullet() {
 		return acceptedBullet;
@@ -300,7 +310,10 @@ public class Model {
 	public void setGameOver(boolean gameOver){
 		this.gameOver = gameOver;
 	}
-	public Controller getController(){
-		return controller;
-	}
 }
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: _empty_/GameObject#getWidth#

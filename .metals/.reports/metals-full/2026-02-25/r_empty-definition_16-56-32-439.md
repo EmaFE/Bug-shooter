@@ -1,3 +1,14 @@
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Controller.java:java/awt/event/KeyEvent#getKeyChar().
+file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Controller.java
+empty definition using pc, found symbol in pc: java/awt/event/KeyEvent#getKeyChar().
+found definition using semanticdb; symbol Controller#setKeyYpressed().
+empty definition using fallback
+non-local guesses:
+
+offset: 2508
+uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Controller.java
+text:
+```scala
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -45,6 +56,9 @@ public class Controller implements KeyListener, MouseListener {
 	private static final Controller instance = new Controller();
 	
 	public Controller() {}
+	// public Controller(Model model){
+	// 	this.model = model;
+	//}
 	
 	public static Controller getInstance(){
 		return instance;
@@ -64,14 +78,47 @@ public class Controller implements KeyListener, MouseListener {
 			case 'A': setKeyAPressed(true);break;
 			case 'd': setKeyDPressed(true);break;
 			case 'D': setKeyAPressed(true);break;
-			case 'y': setKeyYpressed(true); break;
-			case 'Y': setKeyYpressed(true); break;
-			case 'n': setKeyYpressed(true); break;
-			case 'N': setKeyYpressed(true); break;
+			case 'y': 
 			case ' ': setKeySpacePressed(true);break;   
 		    default:
 		        break;
 		}
+
+		if(e.g@@etKeyChar() == 'y' || e.getKeyChar() == 'Y'){
+			setKeyYpressed(true);
+		} else if(e.getKeyChar() == 'n' || e.getKeyChar() == 'N'){
+			setKeyNpressed(true);
+		}
+
+		if(e.getKeyChar() == 'y' || e.getKeyChar() == 'Y'){
+			setKeyYpressed(true);
+		} else if(e.getKeyChar() == 'n' || e.getKeyChar() == 'N'){
+			setKeyNpressed(true);
+		}
+
+		// if (model.getShowBulletPopUp()){
+		// 	if(e.getKeyChar() == 'y' || e.getKeyChar() == 'Y'){
+		// 		setKeyYpressed(true);
+		// 		model.setAcceptedBullet(true);
+		// 		model.setShowBulletPopUp(false);
+		// 	} else if(e.getKeyChar() == 'n' || e.getKeyChar() == 'N'){
+		// 		setKeyNpressed(true);
+		// 		model.setAcceptedBullet(false);
+		// 		model.setShowBulletPopUp(false);
+		// 	}
+		// }
+
+		// if (model.getShowHousePopUp()){
+		// 	if(e.getKeyChar() == 'y' || e.getKeyChar() == 'Y'){
+		// 		setKeyYpressed(true);
+		// 		model.setAcceptedHouse(true);
+		// 		model.setShowHousePopUp(false);
+		// 	} else if(e.getKeyChar() == 'n' || e.getKeyChar() == 'N'){
+		// 		setKeyNpressed(true);
+		// 		model.setAcceptedHouse(false);
+		// 		model.setShowHousePopUp(false);
+		// 	}
+		// }
 	 // You can implement to keep moving while pressing the key here . 
 	}
 
@@ -144,10 +191,10 @@ public class Controller implements KeyListener, MouseListener {
 		keyYpressed = isPressed;
 	}
 	public boolean isKeyNpressed(){
-		return keyNpressed;
+		return keyYpressed;
 	}
 	public void setKeyNpressed(boolean isPressed){
-		keyNpressed = isPressed;
+		keyYpressed = isPressed;
 	}
 
 	@Override
@@ -164,3 +211,9 @@ public class Controller implements KeyListener, MouseListener {
 		// TODO Auto-generated method stub
 	} 	 
 }
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: java/awt/event/KeyEvent#getKeyChar().

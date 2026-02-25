@@ -1,3 +1,14 @@
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Model.java:local31
+file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Model.java
+empty definition using pc, found symbol in pc: 
+found definition using semanticdb; symbol local31
+empty definition using fallback
+non-local guesses:
+
+offset: 9766
+uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Model.java
+text:
+```scala
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -109,7 +120,7 @@ public class Model {
 		}
 
 		//modify this to 2 adn remove > 0 for testing purposes
-		if(money > 0 && money % 20 == 0 && !getShowBulletPopUp()){
+		if( money % 20 == 0 && !getShowBulletPopUp()){
 			setShowBulletPopUp(true);
 			setMoney(money - 20);
 		}
@@ -285,7 +296,7 @@ public class Model {
   public boolean isAcceptedBullet() {
 		return acceptedBullet;
 	}
-	public void setAcceptedBullet(boolean acceptedBullet) {
+	public void setAcceptedBullet(boolean@@ acceptedBullet) {
 		this.acceptedBullet = acceptedBullet;
 	}
 	public boolean isAcceptedHouse() {
@@ -304,3 +315,9 @@ public class Model {
 		return controller;
 	}
 }
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: 

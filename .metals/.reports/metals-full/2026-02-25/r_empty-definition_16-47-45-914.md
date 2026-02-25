@@ -1,3 +1,14 @@
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/MainWindow.java:_empty_/Model#
+file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/MainWindow.java
+empty definition using pc, found symbol in pc: _empty_/Model#
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 1901
+uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/MainWindow.java
+text:
+```scala
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Image;
@@ -47,7 +58,7 @@ SOFTWARE.
 
 public class MainWindow {
 	 private static  JFrame frame = new JFrame("Not in my house");   // Change to the name of your game 
-	 private static   Model gameworld= new Model();
+	 private static   Model gameworld= new M@@odel();
 	 private static   Viewer canvas = new  Viewer(gameworld);
 	 private KeyListener Controller =new Controller(); 
 	 private MouseListener controllerM = new Controller();
@@ -131,3 +142,9 @@ public class MainWindow {
 		 frame.setTitle("Money =  "+ gameworld.getMoney()); 
 	}
 }
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: _empty_/Model#
