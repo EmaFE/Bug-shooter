@@ -1,3 +1,14 @@
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Controller.java:java/lang/UnsupportedOperationException#
+file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Controller.java
+empty definition using pc, found symbol in pc: java/lang/UnsupportedOperationException#
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 3486
+uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Controller.java
+text:
+```scala
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -36,15 +47,15 @@ public class Controller implements KeyListener, MouseListener {
 	   private static boolean KeyAPressed= false;
 	   private static boolean KeyDPressed= false;
 	   private static boolean KeySpacePressed= false;
-		 private static boolean mouseClickedVar = false;
 	   
 	   private static final Controller instance = new Controller();
 	   
-	 public Controller() {}
+	 public Controller() { 
+	}
 	 
 	 public static Controller getInstance(){
 	    return instance;
-	}
+	  }
 	   
 	@Override
 	// Key pressed , will keep triggering 
@@ -56,11 +67,9 @@ public class Controller implements KeyListener, MouseListener {
 	public void keyPressed(KeyEvent e){ 
 		switch (e.getKeyChar()) 
 		{
-			case 'a': setKeyAPressed(true);break;  
-			case 'A': setKeyAPressed(true);break;
-			case 'd': setKeyDPressed(true);break;
-			case 'D': setKeyAPressed(true);break;
-			case ' ': setKeySpacePressed(true);break;   
+			case 'a':setKeyAPressed(true);break;  
+			case 'd':setKeyDPressed(true);break;
+			case ' ':setKeySpacePressed(true);break;   
 		    default:
 		        break;
 		}  
@@ -74,35 +83,15 @@ public class Controller implements KeyListener, MouseListener {
 	{ 
 		switch (e.getKeyChar()) 
 		{
-			case 'a': setKeyAPressed(false);break;  
-			case 'A': setKeyAPressed(false); break;
-			case 'd': setKeyDPressed(false);break;
-			case 'D': setKeyAPressed(false); break;
-			case ' ': setKeySpacePressed(false);break;   
+			case 'a':setKeyAPressed(false);break;  
+			case 'd':setKeyDPressed(false);break;
+			case ' ':setKeySpacePressed(false);break;   
 		    default:
 		        break;
 		}  
+		 //upper case 
+	
 	}
-
-
-		@Override
-	public void mouseClicked(MouseEvent e) {
-		try {
-			setMouseClicked(true);
-		} catch (Exception ex) {
-			throw new UnsupportedOperationException("Unimplemented method 'mouseClicked'");
-		}		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		try {
-			setMouseClicked(false);
-		} catch (Exception ex) {
-			throw new UnsupportedOperationException("Unimplemented method 'mouseReleased'" + ex);
-		}		
-	}
-
 
 	public boolean isKeyAPressed() {
 		return KeyAPressed;
@@ -122,25 +111,40 @@ public class Controller implements KeyListener, MouseListener {
 	public void setKeySpacePressed(boolean keySpacePressed) {
 		KeySpacePressed = keySpacePressed;
 	}
-	public boolean isMouseClicked(){
-		return mouseClickedVar;
-	}
-	public void setMouseClicked(boolean newMouseClickedVar){
-		mouseClickedVar = newMouseClickedVar;
-	}
 
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'mouseClicked'");
+	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
+
+		throw new UnsupportedOperationException("Unimplemented method 'mousePressed'");
 	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		throw new Unsupporte@@dOperationException("Unimplemented method 'mouseReleased'");
+	}
+
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'mouseEntered'");
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'mouseExited'");
 	} 	 
 }
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: java/lang/UnsupportedOperationException#

@@ -1,3 +1,14 @@
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Model.java:_empty_/GameObject#getCentre#getX#
+file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Model.java
+empty definition using pc, found symbol in pc: _empty_/GameObject#getCentre#getX#
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 3612
+uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Model.java
+text:
+```scala
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -72,33 +83,19 @@ public class Model {
 		bulletLogic();
 		gameLogic(); 
 	}
-	// COME BACK TO THIS
+
 	private boolean collision(GameObject enemy){
 		float xCenter = enemy.getCentre().getX() + enemy.getWidth()/2.0f;
 		float yCenter = enemy.getCentre().getY() + enemy.getHeight()/2.0f;
 
-		float enemyTopLeft = enemy.getCentre().getX();
-		float enemyTopRight = enemy.getCentre().getX() + enemy.getWidth();
-		//float enemyTopLeft = enemy.getCentre().getY();
-		float enemyBottomLeft = enemy.getCentre().getY() + enemy.getHeight();
-		//float enemyBottomRight = enemy.getCentre().getY() + enemy.getHeight();
-
-		float houseTopLeft = 45;
-		float houseTopRight = 45 + 125;
-		float houseBottomLeft = 75;
-		float houseBottomRight = 75 + 185; 
-
-
 		//collision if it's underneath the bottom line of the house
-		//doesnt work if enemies come from the side
-		if(xCenter >= 45 && xCenter <= 45 + 125 && yCenter <= 75 + 185){
+		if(xCenter >= 45 && xCenter <= 45 + 135 && yCenter <= 75 + 185){
 			houseLife--;
 			return true;
 		}
-		
 
 		//collission with the player if it's underneath the player
-		if(xCenter >= player.getCentre().getX() && xCenter <= player.getCentre().getX() + player.getWidth() && yCenter <= player.getCentre().getY() + player.getHeight()){
+		if(xCenter >= player.getCentre().getX@@() && xCenter <= player.getCentre().getX() + player.getWidth() && yCenter <= player.getCentre().getY() + player.getHeight()){
 			humanLife--;
 			return true;
 		} 
@@ -239,3 +236,9 @@ public class Model {
 		houseLife = newHouseLife;
 	}
 }
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: _empty_/GameObject#getCentre#getX#

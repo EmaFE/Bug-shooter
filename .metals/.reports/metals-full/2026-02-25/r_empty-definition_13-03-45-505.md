@@ -1,3 +1,14 @@
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Controller.java:java/awt/event/KeyEvent#
+file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Controller.java
+empty definition using pc, found symbol in pc: java/awt/event/KeyEvent#
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 2027
+uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Controller.java
+text:
+```scala
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -53,7 +64,7 @@ public class Controller implements KeyListener, MouseListener {
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e){ 
+	public void keyPressed(KeyEve@@nt e){ 
 		switch (e.getKeyChar()) 
 		{
 			case 'a': setKeyAPressed(true);break;  
@@ -144,3 +155,9 @@ public class Controller implements KeyListener, MouseListener {
 		// TODO Auto-generated method stub
 	} 	 
 }
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: java/awt/event/KeyEvent#

@@ -1,3 +1,14 @@
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Controller.java:java/lang/Exception#
+file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Controller.java
+empty definition using pc, found symbol in pc: java/lang/Exception#
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 3036
+uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Controller.java
+text:
+```scala
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -40,11 +51,12 @@ public class Controller implements KeyListener, MouseListener {
 	   
 	   private static final Controller instance = new Controller();
 	   
-	 public Controller() {}
+	 public Controller() { 
+	}
 	 
 	 public static Controller getInstance(){
 	    return instance;
-	}
+	  }
 	   
 	@Override
 	// Key pressed , will keep triggering 
@@ -87,20 +99,19 @@ public class Controller implements KeyListener, MouseListener {
 
 		@Override
 	public void mouseClicked(MouseEvent e) {
-		try {
-			setMouseClicked(true);
-		} catch (Exception ex) {
-			throw new UnsupportedOperationException("Unimplemented method 'mouseClicked'");
-		}		
+		 setMouseClicked(true);
+		throw new UnsupportedOperationException("Unimplemented method 'mouseClicked'");
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		try {
-			setMouseClicked(false);
-		} catch (Exception ex) {
-			throw new UnsupportedOperationException("Unimplemented method 'mouseReleased'" + ex);
-		}		
+			
+		} catch (@@Exception e) {
+			throw new UnsupportedOperationException("Unimplemented method 'mouseReleased'");
+		}
+		setMouseClicked(false);
+		
 	}
 
 
@@ -125,9 +136,11 @@ public class Controller implements KeyListener, MouseListener {
 	public boolean isMouseClicked(){
 		return mouseClickedVar;
 	}
-	public void setMouseClicked(boolean newMouseClickedVar){
-		mouseClickedVar = newMouseClickedVar;
+	public void setMouseClicked(boolean mouseClickedVar){
+		mouseClickedVar = mouseClickedVar;
 	}
+
+
 
 
 	@Override
@@ -144,3 +157,9 @@ public class Controller implements KeyListener, MouseListener {
 		// TODO Auto-generated method stub
 	} 	 
 }
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: java/lang/Exception#

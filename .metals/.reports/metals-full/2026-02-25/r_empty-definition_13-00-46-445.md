@@ -1,3 +1,14 @@
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Controller.java:
+file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Controller.java
+empty definition using pc, found symbol in pc: 
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 1672
+uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Controller.java
+text:
+```scala
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -36,15 +47,16 @@ public class Controller implements KeyListener, MouseListener {
 	   private static boolean KeyAPressed= false;
 	   private static boolean KeyDPressed= false;
 	   private static boolean KeySpacePressed= false;
-		 private static boolean mouseClickedVar = false;
+		 private static boolean@@ mouseClickedVar = false;
 	   
 	   private static final Controller instance = new Controller();
 	   
-	 public Controller() {}
+	 public Controller() { 
+	}
 	 
 	 public static Controller getInstance(){
 	    return instance;
-	}
+	  }
 	   
 	@Override
 	// Key pressed , will keep triggering 
@@ -128,7 +140,7 @@ public class Controller implements KeyListener, MouseListener {
 	public void setMouseClicked(boolean newMouseClickedVar){
 		mouseClickedVar = newMouseClickedVar;
 	}
-
+	
 
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -144,3 +156,9 @@ public class Controller implements KeyListener, MouseListener {
 		// TODO Auto-generated method stub
 	} 	 
 }
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: 

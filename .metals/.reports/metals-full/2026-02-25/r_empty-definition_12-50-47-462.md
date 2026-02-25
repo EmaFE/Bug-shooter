@@ -1,3 +1,14 @@
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/MainWindow.java:java/awt/Component#setBounds().
+file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/MainWindow.java
+empty definition using pc, found symbol in pc: java/awt/Component#setBounds().
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 3953
+uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/MainWindow.java
+text:
+```scala
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Image;
@@ -46,7 +57,7 @@ SOFTWARE.
 
 
 public class MainWindow {
-	 private static  JFrame frame = new JFrame("Not in my house");   // Change to the name of your game 
+	 private static  JFrame frame = new JFrame("Game");   // Change to the name of your game 
 	 private static   Model gameworld= new Model();
 	 private static   Viewer canvas = new  Viewer( gameworld);
 	 private KeyListener Controller =new Controller()  ; 
@@ -81,12 +92,12 @@ public class MainWindow {
 			startMenuButton.setBounds(400, 500, 200, 40); 
 			
 			//loading background image 
-			File BackroundToLoad = new File("res/startscreen.png");
+			File BackroundToLoad = new File("res/startscreen.png");  //should work okay on OSX and Linux but check if you have issues depending your eclipse install or if your running this without an IDE 
 
 			try {
 				BufferedImage myPicture = ImageIO.read(BackroundToLoad);
 				BackgroundImageForStartMenu = new JLabel(new ImageIcon(myPicture));
-				BackgroundImageForStartMenu.setBounds(0, 0, 1000, 1000);
+				BackgroundImageForStartMenu.setBoun@@ds(0, 0, 1000, 1000);
 				frame.add(BackgroundImageForStartMenu); 
 				}catch (IOException e) { 
 					e.printStackTrace();
@@ -131,3 +142,9 @@ public class MainWindow {
 		 frame.setTitle("Money =  "+ gameworld.getMoney()); 
 	}
 }
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: java/awt/Component#setBounds().
