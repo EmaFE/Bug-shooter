@@ -1,3 +1,14 @@
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Viewer.java:java/io/File#getPath().
+file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Viewer.java
+empty definition using pc, found symbol in pc: java/io/File#getPath().
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 7247
+uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Viewer.java
+text:
+```scala
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -191,7 +202,7 @@ public class Viewer extends JPanel {
 			 g.drawImage(myImage, 35, 15, (int)((35+378)*0.5), (int)((15+38)*0.5), 0, 0, 378, 38, null); 
 			
 		} catch (IOException e) {
-			System.out.println("Error drawing the health house bar");
+			System.out.println("Error drawing the health house bar + file path: " + TextureToLoad.getPath@@());
 			e.printStackTrace();
 		}
 	}
@@ -205,9 +216,15 @@ public class Viewer extends JPanel {
 			 g.drawImage(myImage, 800,15, 800+54, 15+17, 0 , 0, 54, 17, null); 
 			
 		} catch (IOException e) {
-			System.out.println("Error drawing the health player hearts + file path: " + TextureToLoad.getPath());
+			System.out.println("Error drawing the health player hearts");
 			e.printStackTrace();
 		}
 	}
 
 }
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: java/io/File#getPath().

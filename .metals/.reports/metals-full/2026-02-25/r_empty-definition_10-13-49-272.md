@@ -1,3 +1,14 @@
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Model.java:java/util/concurrent/CopyOnWriteArrayList#
+file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Model.java
+empty definition using pc, found symbol in pc: java/util/concurrent/CopyOnWriteArrayList#
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 1754
+uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Model.java
+text:
+```scala
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -36,7 +47,7 @@ public class Model {
 	private Controller controller = Controller.getInstance();
 	//some bugs have 2 lives, so they need to be shot twice + some are faster
 	private CopyOnWriteArrayList<GameObject> enemiesList  = new CopyOnWriteArrayList<GameObject>();
-	private CopyOnWriteArrayList<GameObject> bulletList  = new CopyOnWriteArrayList<GameObject>();
+	private CopyOnWriteArrayList<GameObject> bulletList  = new CopyOnWri@@teArrayList<GameObject>();
 	private int humanLife = 6;
 	private int houseLife = 10;
 	//you get +1 for each bug you kill, so even if you lose your house, you can buy it back if you kill enough bugs while trying to protect your house
@@ -96,7 +107,7 @@ public class Model {
 	private void gameLogic() { 
 		// this is a way to increment across the array list data structure 
 
-		//check if they hit anything 
+		//see if they hit anything 
 		// using enhanced for-loop style as it makes it alot easier both code wise and reading wise too 
 		for (GameObject enemy : enemiesList){
 			for (GameObject bullet : bulletList){
@@ -107,9 +118,8 @@ public class Model {
 						setMoney(getMoney() + 1);
 				}  
 			}
+			
 		}
-
-		//implement logic for when the game is over (human life == 0)
 	}
 
 	private void enemyLogic() {
@@ -125,28 +135,17 @@ public class Model {
 			float length = (float) Math.sqrt(dx * dx + dy * dy);
 			if (length != 0) {
 					dx /= length;
-					//not needed but for completion purposes
-					//dy /= length;
+					dy /= length;
 			}
 
-			/*assert
+			//if the enemy has not reached the player, move enemy up by one towards target
+			//dont let the enemy reach ABOVE the player and follow around (wont be able to shoot)
+			if(enemy.getCentre().getY() - (player.getCentre().getY() + player.getHeight()) > 0.01f){
+				enemy.getCentre().ApplyVector(new Vector3f(dx * 1 , dy * 1, 0));
+			} else{
+				enemy.getCentre().ApplyVector(new Vector3f(0, 1, 0));
+			}
 
-			dx = 100
-			length = 90
-			dx = 100 / 90
-			
-			|
-			|
-			|
-			|
-			|-------------
-			
-			*/
-
-
-			enemy.getCentre().ApplyVector(new Vector3f(dx , -1, 0));
-
-			//remove if collion happens or it's at the top of the screen
 			if (collision(enemy) || enemy.getCentre().getY() <= 1.0f){
 				enemiesList.remove(enemy);
 			}
@@ -161,13 +160,15 @@ public class Model {
 		}
 	}
 
-	private void bulletLogic() {	  
-
+	private void bulletLogic() {
+		// move bullets 
+	  
 		for (GameObject bullet : bulletList){
+		    //check to move them
+			  
 			bullet.getCentre().ApplyVector(new Vector3f(0,1,0));
 			//see if they hit anything 
 			
-
 			//see if they get to the top of the screen ( remember 0 is the top )
 			//anything more that aprox 900, the bullet gets stuck at the bottom
 			if (bullet.getCentre().getY()==900){
@@ -179,32 +180,37 @@ public class Model {
 	private void playerLogic() {
 		
 		// smoother animation is possible if we make a target position  // done but may try to change things for students  
+		 
 		//check for movement and if you fired a bullet 
+		  
 		if(Controller.getInstance().isKeyAPressed()){player.getCentre().ApplyVector( new Vector3f(-2,0,0)); }
+				
 				if(Controller.getInstance().isKeyDPressed()){
 					player.getCentre().ApplyVector( new Vector3f(2,0,0));
 				}
+				
 				if(Controller.getInstance().isKeySpacePressed()){
-					createBullet();
+					CreateBullet();
 					Controller.getInstance().setKeySpacePressed(false);
 				} 	
 	}
 
-	private void createBullet() {
-		bulletList.add(new GameObject("res/bullet.png",306,813,new Point3f(player.getCentre().getX(),player.getCentre().getY(),0.0f)));
+	private void CreateBullet() {
+		bulletList.add(new GameObject("res/Bullet.png",32,64,new Point3f(player.getCentre().getX(),player.getCentre().getY(),0.0f)));
 	}
-
-
 
 	public GameObject getPlayer() {
 		return player;
 	}
+
 	public CopyOnWriteArrayList<GameObject> getEnemies() {
 		return enemiesList;
 	}
+	
 	public CopyOnWriteArrayList<GameObject> getBullets() {
 		return bulletList;
 	}
+
 	public int getMoney() { 
 		return money;
 	}
@@ -224,3 +230,9 @@ public class Model {
 		houseLife = newHouseLife;
 	}
 }
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: java/util/concurrent/CopyOnWriteArrayList#

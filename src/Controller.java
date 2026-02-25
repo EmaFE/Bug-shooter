@@ -86,14 +86,12 @@ public class Controller implements KeyListener {
 	public void setKeyAPressed(boolean keyAPressed) {
 		KeyAPressed = keyAPressed;
 	}
-
 	public boolean isKeyDPressed() {
 		return KeyDPressed;
 	}
 	public void setKeyDPressed(boolean keyDPressed) {
 		KeyDPressed = keyDPressed;
 	}
-
 	public boolean isKeySpacePressed() {
 		return KeySpacePressed;
 	}

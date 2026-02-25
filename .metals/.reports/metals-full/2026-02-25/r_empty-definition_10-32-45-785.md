@@ -1,3 +1,14 @@
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Viewer.java:_empty_/`<any>`#getCentre#
+file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Viewer.java
+empty definition using pc, found symbol in pc: _empty_/`<any>`#getCentre#
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 2883
+uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Viewer.java
+text:
+```scala
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -89,7 +100,7 @@ public class Viewer extends JPanel {
 		  
 		//change back 
 		gameworld.getBullets().forEach((bullet) ->{ 
-			drawBullet((int) bullet.getCentre().getX(), (int) bullet.getCentre().getY(), (int) bullet.getWidth(), (int) bullet.getHeight(), bullet.getTexture(),g);	 
+			drawBullet((int) bullet.@@getCentre().getX(), (int) bullet.getCentre().getY(), (int) bullet.getWidth(), (int) bullet.getHeight(), bullet.getTexture(),g);	 
 		}); 
 		 
 		gameworld.getEnemies().forEach((enemy) ->{
@@ -129,7 +140,7 @@ public class Viewer extends JPanel {
 		File TextureToLoad = new File(texture);
 		try {
 			Image myImage = ImageIO.read(TextureToLoad); 
-			 g.drawImage(myImage, x,y, (int)((x+width*0.05)), (int)((y+height*0.05)), 0 , 0, 306, 813, null); 
+			 g.drawImage(myImage, x,y, (int)((x+width)*0.9), (int)((y+height)*0.9), 0 , 0, 306, 813, null); 
 			
 		} catch (IOException e) {
 			System.out.println("Error drawing the upper bullets");
@@ -205,9 +216,15 @@ public class Viewer extends JPanel {
 			 g.drawImage(myImage, 800,15, 800+54, 15+17, 0 , 0, 54, 17, null); 
 			
 		} catch (IOException e) {
-			System.out.println("Error drawing the health player hearts + file path: " + TextureToLoad.getPath());
+			System.out.println("Error drawing the health player hearts");
 			e.printStackTrace();
 		}
 	}
 
 }
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: _empty_/`<any>`#getCentre#
