@@ -1,5 +1,15 @@
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Viewer.java:java/lang/Exception#
+file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Viewer.java
+empty definition using pc, found symbol in pc: java/lang/Exception#
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 3815
+uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Viewer.java
+text:
+```scala
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -95,10 +105,6 @@ public class Viewer extends JPanel {
 		if(gameworld.getShowHousePopUp()){
 			drawHousePopUp(g);
 		}
-
-		if(gameworld.isGameOver()){
-			drawGameOver(g);
-		}
 		  
 		//change back 
 		gameworld.getBullets().forEach((bullet) ->{ 
@@ -108,6 +114,32 @@ public class Viewer extends JPanel {
 		gameworld.getEnemies().forEach((enemy) ->{
 			drawEnemies((int) enemy.getCentre().getX(), (int) enemy.getCentre().getY(), (int) enemy.getWidth(), (int) enemy.getHeight(), enemy.getTexture(),g);	 
 	  }); 
+	}
+	
+	private void drawHousePopUp(Graphics g) {
+		int width = 400;
+		int height = 200;
+		int x = (1000 - 400) / 2;
+		int y = (1000 - 200) / 2;
+
+		try {
+			g.fillRect(x, y, width, height);
+			g.setColor(new Color(0,0,0,120));
+			
+		} catch (Exception e) {
+			System.out.println("Error drawing the bullet house up");
+			e.printStackTrace();
+		}
+	}
+
+	private void drawBulletPopUp(Graphics g) {
+		
+		try {
+			
+		} catch (Ex@@ception e) {
+			System.out.println("Error drawing the bulltet pop up");
+			e.printStackTrace();
+		}
 	}
 
 	private void drawEnemies(int x, int y, int width, int height, String texture, Graphics g) {
@@ -223,62 +255,10 @@ public class Viewer extends JPanel {
 		}
 	}
 
-	private void drawGameOver(Graphics g) {
-		try {
-			System.out.println("Womp womp, try again");
-		} catch (Exception ex){
-			System.out.println("Error drawing the game over panel.");
-		}
-	}
-
-	private void drawHousePopUp(Graphics g) {
-		int width = 400;
-		int height = 200;
-		int x = (1000 - 400) / 2;
-		int y = (1000 - 200) / 2;
-
-		try {
-			g.create(x, y, width, height);
-			g.setColor(new Color(200,200,200));
-			g.fillRect(x, y, width, height);
-
-			g.setFont(new Font("Arial", Font.BOLD, 15));
-			g.setColor(Color.BLACK);
-			g.drawString("Want to buy back the house?", x+60, y+60);
-			g.drawString("Chance will arise again after 45 more point.", x+60, y+80);
-
-			g.drawString("[Y] Yes", x + 80, y + 120);
-    	g.drawString("[N] No", x + 220, y + 120);
-			
-		} catch (Exception e) {
-			System.out.println("Error drawing the house pop up");
-			e.printStackTrace();
-		}
-	}
-
-	private void drawBulletPopUp(Graphics g) {
-		int width = 400;
-		int height = 200;
-		int x = (1000 - 400) / 2;
-		int y = (1000 - 200) / 2;
-
-		try {
-			g.create(x, y, width, height);
-			g.setColor(new Color(200,200,200));
-			g.fillRect(x, y, width, height);
-
-			g.setFont(new Font("Arial", Font.BOLD, 15));
-			g.setColor(Color.BLACK);
-			g.drawString("Want to update to a bigger bullet?", x+60, y+60);
-			g.drawString("Chance will arise again after 20 more point.", x+60, y+80);
-
-			g.drawString("[Y] Yes", x + 80, y + 120);
-    	g.drawString("[N] No", x + 220, y + 120);
-			
-		} catch (Exception e) {
-			System.out.println("Error drawing the bullet pop up");
-			e.printStackTrace();
-		}
-	}
-
 }
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: java/lang/Exception#

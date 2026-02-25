@@ -32,19 +32,19 @@ SOFTWARE.
 
 //Singeton pattern
 public class Controller implements KeyListener, MouseListener {
-        
-	   private static boolean KeyAPressed= false;
-	   private static boolean KeyDPressed= false;
-	   private static boolean KeySpacePressed= false;
-		 private static boolean mouseClickedVar = false;
-	   
-	   private static final Controller instance = new Controller();
-	   
-	 public Controller() {}
-	 
-	 public static Controller getInstance(){
-	    return instance;
-	}
+			
+	private static boolean KeyAPressed= false;
+	private static boolean KeyDPressed= false;
+	private static boolean KeySpacePressed= false;
+	private static boolean mouseClickedVar = false;
+	
+	private static final Controller instance = new Controller();
+	
+	public Controller() {}
+	
+	public static Controller getInstance(){
+		return instance;
+  }
 	   
 	@Override
 	// Key pressed , will keep triggering 
@@ -63,7 +63,8 @@ public class Controller implements KeyListener, MouseListener {
 			case ' ': setKeySpacePressed(true);break;   
 		    default:
 		        break;
-		}  
+		}
+		
 		
 	 // You can implement to keep moving while pressing the key here . 
 		
@@ -84,8 +85,7 @@ public class Controller implements KeyListener, MouseListener {
 		}  
 	}
 
-
-		@Override
+	@Override
 	public void mouseClicked(MouseEvent e) {
 		try {
 			setMouseClicked(true);

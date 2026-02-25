@@ -41,6 +41,13 @@ public class Model {
 	private int houseLife = 10;
 	//you get +1 for each bug you kill, so even if you lose your house, you can buy it back if you kill enough bugs while trying to protect your house
 	private int money = 0;
+	private boolean showHousePopUp = false;
+	private boolean showBulletPopUp = false;
+
+	private boolean acceptedBullet = false;
+	private boolean acceptedHOuse = false;
+
+	private boolean gameOver = false;
 
 	public GameObject generateEnemy(){
 		//make them bigger nad idffrenet sizes
@@ -72,7 +79,54 @@ public class Model {
 		bulletLogic();
 		gameLogic(); 
 	}
-	// COME BACK TO THIS
+
+	private void buyBullet(){
+		if (!isAcceptedBullet()){
+			setAcceptedBullet(true);
+		}
+	}
+
+	private void buyHouse(){
+		if (!isAcceptedHouse()){
+			setAcceptedHouse(true);
+		}
+	}
+
+	private void gameLogic() { 
+		// this is a way to increment across the array list data structure 
+
+		//check if they hit anything 
+		// using enhanced for-loop style as it makes it alot easier both code wise and reading wise too 
+		for (GameObject enemy : enemiesList){
+			for (GameObject bullet : bulletList){
+				if ( Math.abs(enemy.getCentre().getX() - bullet.getCentre().getX()) < enemy.getWidth() 
+					&& Math.abs(enemy.getCentre().getY() - bullet.getCentre().getY()) < enemy.getHeight()){
+						enemiesList.remove(enemy);
+						bulletList.remove(bullet);
+						setMoney(getMoney() + 1);
+				}  
+			}
+		}
+
+		//modify this to 2 adn remove > 0 for testing purposes
+		if(money > 0 && money % 20 == 0 && !getShowBulletPopUp()){
+			setShowBulletPopUp(true);
+			setMoney(money - 20);
+		}
+
+		if(money > 0 && money % 45 == 0 && !getShowHousePopUp()){
+			setShowHousePopUp(true);
+			setMoney(money - 45);
+		}
+
+		//implement logic for when the game is over (human life == 0) -> big bug crawls from bottom screen + "GAME OVER" middle screen
+		if (humanLife == 0){
+			gameOver = true;
+		}
+
+	}
+
+		// COME BACK TO THIS
 	private boolean collision(GameObject enemy){
 		float xCenter = enemy.getCentre().getX() + enemy.getWidth()/2.0f;
 		float yCenter = enemy.getCentre().getY() + enemy.getHeight()/2.0f;
@@ -104,29 +158,6 @@ public class Model {
 		} 
 
 		return false;
-	}
-
-	private void gameLogic() { 
-		// this is a way to increment across the array list data structure 
-
-		//check if they hit anything 
-		// using enhanced for-loop style as it makes it alot easier both code wise and reading wise too 
-		for (GameObject enemy : enemiesList){
-			for (GameObject bullet : bulletList){
-				if ( Math.abs(enemy.getCentre().getX() - bullet.getCentre().getX()) < enemy.getWidth() 
-					&& Math.abs(enemy.getCentre().getY() - bullet.getCentre().getY()) < enemy.getHeight()){
-						enemiesList.remove(enemy);
-						bulletList.remove(bullet);
-						setMoney(getMoney() + 1);
-				}  
-			}
-		}
-
-		//implement logic for when the game is over (human life == 0) -> redirect to the start menu with a pop up saying "GAME OVER"
-		if (humanLife == 0){
-
-		}
-
 	}
 
 	private void enemyLogic() {
@@ -237,5 +268,35 @@ public class Model {
 	}
 	public void setHouseLife(int newHouseLife){
 		houseLife = newHouseLife;
+	}
+	public boolean getShowHousePopUp(){
+		return showHousePopUp;
+	}
+	public void setShowHousePopUp( boolean newPopUp){
+		showHousePopUp = newPopUp;
+	}
+	public boolean getShowBulletPopUp(){
+		return showBulletPopUp;
+	}
+	public void setShowBulletPopUp( boolean newPopUp){
+		showBulletPopUp = newPopUp;
+	}
+  public boolean isAcceptedBullet() {
+		return acceptedBullet;
+	}
+	public void setAcceptedBullet(boolean acceptedBullet) {
+		this.acceptedBullet = acceptedBullet;
+	}
+	public boolean isAcceptedHouse() {
+		return acceptedHOuse;
+	}
+	public void setAcceptedHouse(boolean acceptedHOuse) {
+		this.acceptedHOuse = acceptedHOuse;
+	}
+	public boolean isGameOver(){
+		return gameOver;
+	}
+	public void setGameOver(boolean gameOver){
+		this.gameOver = gameOver;
 	}
 }

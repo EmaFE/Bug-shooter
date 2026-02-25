@@ -107,7 +107,7 @@ public class MainWindow {
 		//wait till next time step 
 		while (FrameCheck > System.currentTimeMillis()){} 
 			
-		if(startGame){gameloop();}
+		if(startGame && !gameworld.isGameOver()){gameloop();}
 			
 		//UNIT test to see if framerate matches 
 		 UnitTests.CheckFrameRate(System.currentTimeMillis(),FrameCheck, TargetFPS); 

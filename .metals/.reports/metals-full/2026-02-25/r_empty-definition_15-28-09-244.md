@@ -1,5 +1,15 @@
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Viewer.java:_empty_/Viewer#rgba#
+file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Viewer.java
+empty definition using pc, found symbol in pc: _empty_/Viewer#rgba#
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 8995
+uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Viewer.java
+text:
+```scala
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -239,19 +249,16 @@ public class Viewer extends JPanel {
 
 		try {
 			g.create(x, y, width, height);
-			g.setColor(new Color(200,200,200));
 			g.fillRect(x, y, width, height);
-
-			g.setFont(new Font("Arial", Font.BOLD, 15));
-			g.setColor(Color.BLACK);
-			g.drawString("Want to buy back the house?", x+60, y+60);
-			g.drawString("Chance will arise again after 45 more point.", x+60, y+80);
+			g.setColor(new Color(0,0,0,120));
+			g.drawString("Want to update to a bigger bullet?", x+40, y+20);
+			g.drawString("Chance will arise again after 20 more point.", x+40, y+40);
 
 			g.drawString("[Y] Yes", x + 80, y + 120);
     	g.drawString("[N] No", x + 220, y + 120);
 			
 		} catch (Exception e) {
-			System.out.println("Error drawing the house pop up");
+			System.out.println("Error drawing the bullet house up");
 			e.printStackTrace();
 		}
 	}
@@ -264,21 +271,24 @@ public class Viewer extends JPanel {
 
 		try {
 			g.create(x, y, width, height);
-			g.setColor(new Color(200,200,200));
 			g.fillRect(x, y, width, height);
-
-			g.setFont(new Font("Arial", Font.BOLD, 15));
-			g.setColor(Color.BLACK);
-			g.drawString("Want to update to a bigger bullet?", x+60, y+60);
-			g.drawString("Chance will arise again after 20 more point.", x+60, y+80);
+			g.setColor(new Color(r@@gba(178, 168, 174, 0.3)));
+			g.drawString("Want to update to a bigger bullet?", x+40, y+20);
+			g.drawString("Chance will arise again after 20 more point.", x+40, y+40);
 
 			g.drawString("[Y] Yes", x + 80, y + 120);
     	g.drawString("[N] No", x + 220, y + 120);
 			
 		} catch (Exception e) {
-			System.out.println("Error drawing the bullet pop up");
+			System.out.println("Error drawing the bullet house up");
 			e.printStackTrace();
 		}
 	}
 
 }
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: _empty_/Viewer#rgba#
