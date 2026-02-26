@@ -46,11 +46,11 @@ SOFTWARE.
 
 
 public class MainWindow {
-	 private static JFrame frame = new JFrame("Bob's Bugs Be Gone");   // Change to the name of your game 
+	 private static JFrame frame = new JFrame("Bob's Bugs Be Gone"); 
 	 private static Model gameworld= new Model();
 	 private static Viewer canvas = new  Viewer(gameworld);
-	 private KeyListener Controller = new Controller(); 
-	 private MouseListener controllerM = new Controller();
+	 private KeyListener controllerK = Controller.getInstance(); 
+	 private MouseListener controllerM = Controller.getInstance();
 	 private static int TargetFPS = 100;
 	 private static boolean startGame= false; 
 	 private JLabel BackgroundImageForStartMenu;
@@ -72,7 +72,7 @@ public class MainWindow {
 					startMenuButton.setVisible(false);
 					BackgroundImageForStartMenu.setVisible(false); 
 					canvas.setVisible(true); 
-					canvas.addKeyListener(Controller);    //adding the controller to the Canvas  
+					canvas.addKeyListener(controllerK);    //adding the controller to the Canvas  
 					canvas.addMouseListener(controllerM); //adding mouse listener to canvas
 					canvas.requestFocusInWindow();   // making sure that the Canvas is in focus so keyboard input will be taking in .
 					startGame=true;

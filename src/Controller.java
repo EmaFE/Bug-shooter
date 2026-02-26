@@ -43,11 +43,12 @@ public class Controller implements KeyListener, MouseListener {
 	private static int mouseX;
 	private static int mouseY;
 	
-	private static final Controller instance = new Controller();
+	private static Controller instance;
 	
-	public Controller() {}
+	private Controller() {}
 	
 	public static Controller getInstance(){
+		if (instance == null) instance = new Controller();
 		return instance;
   }
 	   
