@@ -1,3 +1,14 @@
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/MainWindow.java:_empty_/Viewer#requestFocusInWindow#
+file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/MainWindow.java
+empty definition using pc, found symbol in pc: _empty_/Viewer#requestFocusInWindow#
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 5460
+uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/MainWindow.java
+text:
+```scala
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Image;
@@ -122,27 +133,21 @@ public class MainWindow {
 		gameworld.gamelogic();
 
 		if(gameworld.getShowBulletPopUp()){
-			PopUp popup = new PopUp(frame, "Do you want a bigger bullet or a faster bullet?");
+			PopUp popup = new PopUp(frame, "Do you want to accept the bullet?");
 			popup.setVisible(true); 
 			
-			if (popup.isAccepted()) {
-				System.out.println("Pressed Bigger");
+
+			if (popup.isAccepted() || pressedY()) {
+				System.out.println("Pressed Yes");
 				canvas.setVisible(true);
 				canvas.addKeyListener(controllerK);
 				canvas.addMouseListener(controllerM);
-				canvas.requestFocusInWindow();
+				canvas.requestFocu@@sInWindow();
 
-				gameworld.setAcceptedBigBullet(true);
+				gameworld.setAcceptedBullet(true);
 				gameworld.setShowBulletPopUp(false);
 			} else {
-				System.out.println("Pressed Faster");
-				canvas.setVisible(true);
-				canvas.addKeyListener(controllerK);
-				canvas.addMouseListener(controllerM);
-				canvas.requestFocusInWindow();
-
-				gameworld.setAcceptedFasterBullet(true);
-				gameworld.setShowBulletPopUp(false);
+				System.out.println("Pressed No");
 			}
 		}
 		
@@ -153,4 +158,16 @@ public class MainWindow {
 		//score update  
 		 frame.setTitle("Money =  "+ gameworld.getMoney()); 
 	}
+
+	public static boolean pressedY(){
+		System.out.println("pressed y in main");
+		System.out.println("py: " + controllerK.isKeyYpressed());
+		return controllerK.isKeyYpressed();
+	}
 }
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: _empty_/Viewer#requestFocusInWindow#

@@ -1,3 +1,14 @@
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Model.java:java/lang/System#
+file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Model.java
+empty definition using pc, found symbol in pc: java/lang/System#
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 10149
+uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Model.java
+text:
+```scala
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -34,6 +45,7 @@ public class Model {
 	
 	private GameObject player;
 	private Controller controller = Controller.getInstance();
+	private Mouse mouse = Mouse.getInstance();
 	//some bugs have 2 lives, so they need to be shot twice + some are faster
 	private CopyOnWriteArrayList<GameObject> enemiesList  = new CopyOnWriteArrayList<GameObject>();
 	private CopyOnWriteArrayList<GameObject> bulletList  = new CopyOnWriteArrayList<GameObject>();
@@ -44,9 +56,8 @@ public class Model {
 	private boolean showHousePopUp = false;
 	private boolean showBulletPopUp = false;
 
-	private boolean acceptedBigBullet = false;
-	private boolean acceptedFasterBullet = false;
-	private boolean acceptedHouse = false;
+	private boolean acceptedBullet = false;
+	private boolean acceptedHOuse = false;
 
 	private boolean gameOver = false;
 
@@ -82,8 +93,8 @@ public class Model {
 	}
 
 	private void buyBullet(){
-		if (!isAcceptedBigBullet()){
-			setAcceptedBigBullet(true);
+		if (!isAcceptedBullet()){
+			setAcceptedBullet(true);
 		}
 	}
 
@@ -232,10 +243,10 @@ public class Model {
 		if(Controller.getInstance().isKeyDPressed()){
 			player.getCentre().ApplyVector( new Vector3f(2,0,0));
 		}
-		if(Controller.getInstance().isKeySpacePressed() || Mouse.getInstance().isMouseClicked()){
+		if(Controller.getInstance().isKeySpacePressed() || Controller.getInstance().isMouseClicked()){
 			createBullet();
 			Controller.getInstance().setKeySpacePressed(false);
-			Mouse.getInstance().setMouseClicked(false);
+			Controller.getInstance().setMouseClicked(false);
 		} 	
 	}
 
@@ -282,25 +293,17 @@ public class Model {
 	public void setShowBulletPopUp( boolean newPopUp){
 		showBulletPopUp = newPopUp;
 	}
-  public boolean isAcceptedBigBullet() {
-		return acceptedBigBullet;
+  public boolean isAcceptedBullet() {
+		return acceptedBullet;
 	}
-	public void setAcceptedBigBullet(boolean acceptedBigBullet) {
-		this.acceptedBigBullet = acceptedBigBullet;
+	public void setAcceptedBullet(boolean acceptedBullet) {
+		this.acceptedBullet = acceptedBullet;
 	}
-
-	public boolean isAcceptedFasterBullet() {
-		return acceptedFasterBullet;
-	}
-	public void setAcceptedFasterBullet(boolean acceptedFasterBullet) {
-		this.acceptedFasterBullet = acceptedFasterBullet;
-	}
-
 	public boolean isAcceptedHouse() {
-		return acceptedHouse;
+		return acceptedHOuse;
 	}
-	public void setAcceptedHouse(boolean acceptedHouse) {
-		this.acceptedHouse = acceptedHouse;
+	public void setAcceptedHouse(boolean acceptedHOuse) {
+		this.acceptedHOuse = acceptedHOuse;
 	}
 	public boolean isGameOver(){
 		return gameOver;
@@ -309,7 +312,13 @@ public class Model {
 		this.gameOver = gameOver;
 	}
 	public Controller getController(){
+		@@System.out.println("clicked from model:" + controller.isMouseClicked());
 		return controller;
 	}
-
 }
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: java/lang/System#

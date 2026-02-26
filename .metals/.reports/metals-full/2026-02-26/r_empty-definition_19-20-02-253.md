@@ -1,3 +1,14 @@
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/MainWindow.java:_empty_/Model#setAcceptedBigBullet#
+file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/MainWindow.java
+empty definition using pc, found symbol in pc: _empty_/Model#setAcceptedBigBullet#
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 5511
+uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/MainWindow.java
+text:
+```scala
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Image;
@@ -125,6 +136,7 @@ public class MainWindow {
 			PopUp popup = new PopUp(frame, "Do you want a bigger bullet or a faster bullet?");
 			popup.setVisible(true); 
 			
+
 			if (popup.isAccepted()) {
 				System.out.println("Pressed Bigger");
 				canvas.setVisible(true);
@@ -132,7 +144,7 @@ public class MainWindow {
 				canvas.addMouseListener(controllerM);
 				canvas.requestFocusInWindow();
 
-				gameworld.setAcceptedBigBullet(true);
+				gameworld.setAcceptedBigBull@@et(true);
 				gameworld.setShowBulletPopUp(false);
 			} else {
 				System.out.println("Pressed Faster");
@@ -154,3 +166,9 @@ public class MainWindow {
 		 frame.setTitle("Money =  "+ gameworld.getMoney()); 
 	}
 }
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: _empty_/Model#setAcceptedBigBullet#

@@ -1,3 +1,14 @@
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Viewer.java:java/awt/Component#repaint().
+file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Viewer.java
+empty definition using pc, found symbol in pc: java/awt/Component#repaint().
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 2310
+uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Viewer.java
+text:
+```scala
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -47,8 +58,8 @@ import util.GameObject;
  */ 
 public class Viewer extends JPanel {
 	private long CurrentAnimationTime= 0; 
-	// Rectangle yesBtn = new Rectangle(368, 505, 80, 40);
-	// Rectangle noBtn = new Rectangle(508, 505, 80, 40);
+	Rectangle yesBtn = new Rectangle(368, 505, 80, 40);
+	Rectangle noBtn = new Rectangle(508, 505, 80, 40);
 	
 	Model gameworld = new Model(); 
 	 
@@ -69,7 +80,7 @@ public class Viewer extends JPanel {
 	}
 
 	public void updateview() {
-		this.repaint();		
+		this.repai@@nt();		
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -92,16 +103,16 @@ public class Viewer extends JPanel {
 		drawHealthPlayer(g);
 		drawHealthHouse(g);
 		drawPlayer(x, y, width, height, texture,g);
-	
+		if(gameworld.getShowBulletPopUp()){
+			drawBulletPopUp(g);
+		};
+		if(gameworld.getShowHousePopUp()){
+			drawHousePopUp(g);
+		};
 		if(gameworld.isGameOver()){
 			drawGameOver(g);
 		};
-		if(gameworld.isAcceptedBigBullet()){
-			drawBigBullet(g);
-		};
-
-		//made bullet go faster
-		if(gameworld.isAcceptedFasterBullet()){
+		if(gameworld.isAcceptedBullet()){
 			drawBigBullet(g);
 		};
 		if(gameworld.isAcceptedHouse()){
@@ -246,104 +257,110 @@ public class Viewer extends JPanel {
 		}
 	}
 
-	// private void drawHousePopUp(Graphics g) {
-	// 	int width = 400;
-	// 	int height = 200;
-	// 	int x = (1000 - 400) / 2;
-	// 	int y = (1000 - 200) / 2;
+	private void drawHousePopUp(Graphics g) {
+		int width = 400;
+		int height = 200;
+		int x = (1000 - 400) / 2;
+		int y = (1000 - 200) / 2;
 
-	// 	try {
-	// 		g.create(x, y, width, height);
-	// 		g.setColor(new Color(200,200,200));
-	// 		g.fillRect(x, y, width, height);
+		try {
+			g.create(x, y, width, height);
+			g.setColor(new Color(200,200,200));
+			g.fillRect(x, y, width, height);
 
-	// 		g.setFont(new Font("Arial", Font.BOLD, 15));
-	// 		g.setColor(Color.BLACK);
-	// 		g.drawString("Want to buy back the house?", x+60, y+60);
-	// 		g.drawString("Chance will arise again after 45 more point.", x+60, y+80);
+			g.setFont(new Font("Arial", Font.BOLD, 15));
+			g.setColor(Color.BLACK);
+			g.drawString("Want to buy back the house?", x+60, y+60);
+			g.drawString("Chance will arise again after 45 more point.", x+60, y+80);
 
-	// 		// g.drawString("[Y] Yes", x + 80, y + 120);
-  //   	// g.drawString("[N] No", x + 220, y + 120);
+			g.drawString("[Y] Yes", x + 80, y + 120);
+    	g.drawString("[N] No", x + 220, y + 120);
 
-	// 		if (gameworld.getController().isKeyYpressed()){
-	// 			gameworld.setAcceptedHouse(true);
-	// 			gameworld.setShowHousePopUp(false);
-	// 		} else if (gameworld.getController().isKeyNpressed()){
-	// 			gameworld.setAcceptedHouse(false);
-	// 			gameworld.setShowHousePopUp(false);
-	// 		}
+			if (gameworld.getController().isKeyYpressed()){
+				gameworld.setAcceptedHouse(true);
+				gameworld.setShowHousePopUp(false);
+			} else if (gameworld.getController().isKeyNpressed()){
+				gameworld.setAcceptedHouse(false);
+				gameworld.setShowHousePopUp(false);
+			}
 
 			
 			
-	// 	} catch (Exception e) {
-	// 		System.out.println("Error drawing the house pop up");
-	// 		e.printStackTrace();
-	// 	}
-	// }
+		} catch (Exception e) {
+			System.out.println("Error drawing the house pop up");
+			e.printStackTrace();
+		}
+	}
 
-	// private void drawBulletPopUp(Graphics g) {
-	// 	int width = 400;
-	// 	int height = 200;
-	// 	int x = (1000 - 400) / 2; // = 300
-	// 	int y = (1000 - 200) / 2; // = 400
+	private void drawBulletPopUp(Graphics g) {
+		int width = 400;
+		int height = 200;
+		int x = (1000 - 400) / 2; // = 300
+		int y = (1000 - 200) / 2; // = 400
 
-	// 	try {
-	// 		g.create(x, y, width, height);
-	// 		g.setColor(new Color(200,200,200));
-	// 		g.fillRect(x, y, width, height);
+		try {
+			g.create(x, y, width, height);
+			g.setColor(new Color(200,200,200));
+			g.fillRect(x, y, width, height);
 
-	// 		g.setFont(new Font("Arial", Font.BOLD, 15));
-	// 		g.setColor(Color.BLACK);
-	// 		g.drawString("Want to buy to a bigger bullet? (20 points)", x+60, y+60);
-	// 		g.drawString("Chance will arise again after 20 more point.", x+60, y+80);
+			g.setFont(new Font("Arial", Font.BOLD, 15));
+			g.setColor(Color.BLACK);
+			g.drawString("Want to buy to a bigger bullet? (20 points)", x+60, y+60);
+			g.drawString("Chance will arise again after 20 more point.", x+60, y+80);
 
-	// 		// g.setColor(Color.BLACK);
-	// 		// //yes and no "buttons"
-	// 		// g.drawRect(368, 505, 80, 40);
-	// 		// g.drawRect(508, 505, 80, 40);
-	// 		// g.drawString("[Y] Yes", x + 80, y + 130);
-  //   	// g.drawString("[N] No", x + 220, y + 130);
+			g.setColor(Color.BLACK);
+			//yes and no "buttons"
+			g.drawRect(368, 505, 80, 40);
+			g.drawRect(508, 505, 80, 40);
+			g.drawString("[Y] Yes", x + 80, y + 130);
+    	g.drawString("[N] No", x + 220, y + 130);
 
-	// 		if (gameworld.getController().isKeyYpressed()){
-	// 			gameworld.setAcceptedBullet(true);
-	// 			gameworld.setShowBulletPopUp(false);
-	// 		} else if (gameworld.getController().isKeyNpressed()){
-	// 			gameworld.setAcceptedBullet(false);
-	// 			gameworld.setShowBulletPopUp(false);
-	// 		}
+			if (gameworld.getController().isKeyYpressed() || isMouseInsideYesButton()){
+				gameworld.setAcceptedBullet(true);
+				gameworld.setShowBulletPopUp(false);
+			} else if (gameworld.getController().isKeyNpressed()){
+				gameworld.setAcceptedBullet(false);
+				gameworld.setShowBulletPopUp(false);
+			}
 			
-	// 	} catch (Exception e) {
-	// 		System.out.println("Error drawing the bullet pop up");
-	// 		e.printStackTrace();
-	// 	}
-	// }
+		} catch (Exception e) {
+			System.out.println("Error drawing the bullet pop up");
+			e.printStackTrace();
+		}
+	}
 
-	// public boolean isMouseInsideYesButton(){
+	public boolean isMouseInsideYesButton(){
 
-	// 	int mouseX = gameworld.getMouse().getMouseX();
-	// 	int mouseY = gameworld.getMouse().getMouseY();
+		int mouseX = gameworld.getMouse().getMouseX();
+		int mouseY = gameworld.getMouse().getMouseY();
 
-	// 	//System.out.println("mouseX: " + mouseX + "mouseY: " + mouseY);
+		//System.out.println("mouseX: " + mouseX + "mouseY: " + mouseY);
 
-	// 	boolean clicked = gameworld.getMouse().isMouseClicked();
+		boolean clicked = gameworld.getMouse().isMouseClicked();
 
-	// 	// System.out.println("does it contain: " + yesBtn.contains(new Point(mouseX, mouseY)));
+		// System.out.println("does it contain: " + yesBtn.contains(new Point(mouseX, mouseY)));
 
-	// 	System.out.println("clicked: " + clicked);
+		System.out.println("clicked: " + clicked);
 
-	// 	if (clicked && yesBtn.contains(new Point(mouseX, mouseY))){
-	// 		// System.out.println("mouse pressed yes button");
-	// 		return true;
-	// 	}
+		if (clicked && yesBtn.contains(new Point(mouseX, mouseY))){
+			// System.out.println("mouse pressed yes button");
+			return true;
+		}
 
-	// 	// boolean fitsInX = mouseX > 368 && mouseX < 368 + 80;
-	// 	// boolean fitsInY = mouseY > 505 && mouseY < 505 + 40;
+		// boolean fitsInX = mouseX > 368 && mouseX < 368 + 80;
+		// boolean fitsInY = mouseY > 505 && mouseY < 505 + 40;
 
-	// 	// if(clicked && fitsInX && fitsInY){
-	// 	// 	System.out.println("mouse pressed yes button");
-	// 	// 	return true;
-	// 	// }
-	// 	return false;
-	// }
+		// if(clicked && fitsInX && fitsInY){
+		// 	System.out.println("mouse pressed yes button");
+		// 	return true;
+		// }
+		return false;
+	}
 
 }
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: java/awt/Component#repaint().

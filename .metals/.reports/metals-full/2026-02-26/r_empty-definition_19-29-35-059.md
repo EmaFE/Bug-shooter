@@ -1,5 +1,20 @@
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Controller.java:Controller#
+file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Controller.java
+empty definition using pc, found symbol in pc: 
+found definition using semanticdb; symbol Controller#
+empty definition using fallback
+non-local guesses:
+
+offset: 1739
+uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Controller.java
+text:
+```scala
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /*
  * Created by Abraham Campbell on 15/01/2020.
@@ -35,7 +50,7 @@ public class Controller implements KeyListener {
 	private static boolean keyNpressed = false;
 	private static boolean KeySpacePressed= false;
 	
-	private static Controller instance;
+	private static Controller@@ instance;
 	
 	private Controller() {}
 	
@@ -119,3 +134,9 @@ public class Controller implements KeyListener {
 	}
 
 }
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: 

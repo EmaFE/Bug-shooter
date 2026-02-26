@@ -1,5 +1,20 @@
-import java.awt.event.KeyEvent;
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Controller.java:java/awt/event/KeyEvent#
+file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Controller.java
+empty definition using pc, found symbol in pc: java/awt/event/KeyEvent#
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 29
+uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Controller.java
+text:
+```scala
+import java.awt.event.KeyEven@@t;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /*
  * Created by Abraham Campbell on 15/01/2020.
@@ -27,13 +42,17 @@ SOFTWARE.
  */ 
 
 //Singeton pattern
-public class Controller implements KeyListener {
+public class Controller implements KeyListener, MouseListener {
 			
 	private static boolean KeyAPressed= false;
 	private static boolean KeyDPressed= false;
 	private static boolean keyYpressed = false;
 	private static boolean keyNpressed = false;
 	private static boolean KeySpacePressed= false;
+	private static boolean mouseClickedVar = false;
+
+	private static int mouseX;
+	private static int mouseY;
 	
 	private static Controller instance;
 	
@@ -43,11 +62,13 @@ public class Controller implements KeyListener {
 		if (instance == null) instance = new Controller();
 		return instance;
   }
+	   
 	@Override
 	// Key pressed , will keep triggering 
 	public void keyTyped(KeyEvent e) { 
 		 
 	}
+
 	@Override
 	public void keyPressed(KeyEvent e){ 
 		switch (e.getKeyChar()) 
@@ -58,14 +79,15 @@ public class Controller implements KeyListener {
 			case 'D': setKeyAPressed(true);break;
 			case 'y': setKeyYpressed(true); break;
 			case 'Y': setKeyYpressed(true); break;
-			case 'n': setKeyNpressed(true); break;
-			case 'N': setKeyNpressed(true); break;
+			case 'n': setKeyYpressed(true); break;
+			case 'N': setKeyYpressed(true); break;
 			case ' ': setKeySpacePressed(true);break;   
 		    default:
 		        break;
 		}
 	 // You can implement to keep moving while pressing the key here . 
 	}
+
 	@Override
 	public void keyReleased(KeyEvent e) 
 	{ 
@@ -85,6 +107,28 @@ public class Controller implements KeyListener {
 		} 
 	}
 
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		try {
+			setMouseClicked(true);
+			System.out.println("clicked from Controller: " + isMouseClicked());
+			mouseX = e.getX();
+			mouseY = e.getY();
+		} catch (Exception ex) {
+			throw new UnsupportedOperationException("Unimplemented method 'mouseClicked'");
+		}		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		try {
+			setMouseClicked(false);
+		} catch (Exception ex) {
+			throw new UnsupportedOperationException("Unimplemented method 'mouseReleased'" + ex);
+		}		
+	}
+
+
 	public boolean isKeyAPressed() {
 		return KeyAPressed;
 	}
@@ -103,12 +147,16 @@ public class Controller implements KeyListener {
 	public void setKeySpacePressed(boolean keySpacePressed) {
 		KeySpacePressed = keySpacePressed;
 	}
+	public boolean isMouseClicked(){
+		return mouseClickedVar;
+	}
+	public void setMouseClicked(boolean newMouseClickedVar){
+		mouseClickedVar = newMouseClickedVar;
+	}
 	public boolean isKeyYpressed(){
-		
 		return keyYpressed;
 	}
 	public void setKeyYpressed(boolean isPressed){
-		System.out.println("py in contoller: " + isKeyYpressed());
 		keyYpressed = isPressed;
 	}
 	public boolean isKeyNpressed(){
@@ -118,4 +166,32 @@ public class Controller implements KeyListener {
 		keyNpressed = isPressed;
 	}
 
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+	} 	 
+
+	public int getMouseX(){
+		return mouseX;
+	}
+	public int getMouseY(){
+		return mouseY;
+	}
+
+
 }
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: java/awt/event/KeyEvent#

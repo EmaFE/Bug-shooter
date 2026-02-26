@@ -1,3 +1,14 @@
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/MainWindow.java:_empty_/startMenuButton#setBounds#
+file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/MainWindow.java
+empty definition using pc, found symbol in pc: _empty_/startMenuButton#setBounds#
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 5801
+uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/MainWindow.java
+text:
+```scala
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Image;
@@ -49,8 +60,8 @@ public class MainWindow {
 	 private static JFrame frame = new JFrame("Bob's Bugs Be Gone"); 
 	 private static Model gameworld= new Model();
 	 private static Viewer canvas = new  Viewer(gameworld);
-	 private static Controller controllerK = Controller.getInstance(); 
-	 private static MouseListener controllerM = Mouse.getInstance();
+	 private KeyListener controllerK = Controller.getInstance(); 
+	 private MouseListener controllerM = Controller.getInstance();
 	 private static int TargetFPS = 100;
 	 private static boolean startGame= false; 
 	 private JLabel BackgroundImageForStartMenu;
@@ -114,39 +125,33 @@ public class MainWindow {
 		}
 	} 
 	//Basic Model-View-Controller pattern 
-	private static void gameloop() { 		
+	private static void gameloop() { 
+		// GAMELOOP  
+		
 		// controller input  will happen on its own thread 
 		// So no need to call it explicitly 
 		
 		// model update   
 		gameworld.gamelogic();
-
 		if(gameworld.getShowBulletPopUp()){
-			PopUp popup = new PopUp(frame, "Do you want a bigger bullet or a faster bullet?");
-			popup.setVisible(true); 
-			
-			if (popup.isAccepted()) {
-				System.out.println("Pressed Bigger");
-				canvas.setVisible(true);
-				canvas.addKeyListener(controllerK);
-				canvas.addMouseListener(controllerM);
-				canvas.requestFocusInWindow();
-
-				gameworld.setAcceptedBigBullet(true);
-				gameworld.setShowBulletPopUp(false);
-			} else {
-				System.out.println("Pressed Faster");
-				canvas.setVisible(true);
-				canvas.addKeyListener(controllerK);
-				canvas.addMouseListener(controllerM);
-				canvas.requestFocusInWindow();
-
-				gameworld.setAcceptedFasterBullet(true);
-				gameworld.setShowBulletPopUp(false);
-			}
+			JButton yesBtn = new JButton("[Y] Yes");
+			yesBtn.addActionListener(new ActionListener(){ 
+				@Override
+				public void actionPerformed(ActionEvent e) { 
+					gameworld.setAcceptedBullet(true);
+					gameworld.setShowBulletPopUp(false);
+					yesBtn.setVisible(false);
+					canvas.setVisible(true); 
+					canvas.addKeyListener(controllerK);    //adding the controller to the Canvas  
+					canvas.addMouseListener(controllerM); //adding mouse listener to canvas
+					canvas.requestFocusInWindow();   // making sure that the Canvas is in focus so keyboard input will be taking in .
+					startGame=true;
+				}
+			});  
+			startMenuButton.setBounds@@(400, 500, 200, 40); 
 		}
-		
 		// view update 
+		
 		canvas.updateview(); 
 		
 		// Both these calls could be setup as  a thread but we want to simplify the game logic for you.  
@@ -154,3 +159,9 @@ public class MainWindow {
 		 frame.setTitle("Money =  "+ gameworld.getMoney()); 
 	}
 }
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: _empty_/startMenuButton#setBounds#
