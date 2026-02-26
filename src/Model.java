@@ -215,7 +215,11 @@ public class Model {
 	private void bulletLogic() {	  
 
 		for (GameObject bullet : bulletList){
-			bullet.getCentre().ApplyVector(new Vector3f(0,1,0));
+			if(acceptedFasterBullet){
+				bullet.getCentre().ApplyVector(new Vector3f(0,3,0));
+			} else{
+				bullet.getCentre().ApplyVector(new Vector3f(0,1,0));
+			}
 			//see if they get to the top of the screen ( remember 0 is the top )
 			//anything more that aprox 900, the bullet gets stuck at the bottom
 			if (bullet.getCentre().getY()==900){

@@ -1,3 +1,14 @@
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Viewer.java:java/lang/System#
+file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Viewer.java
+empty definition using pc, found symbol in pc: java/lang/System#
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 5326
+uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Viewer.java
+text:
+```scala
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -155,18 +166,7 @@ public class Viewer extends JPanel {
 			 g.drawImage(myImage, x,y, (int)((x+width*0.05)), (int)((y+height*0.05)), 0 , 0, 306, 813, null); 
 			
 		} catch (IOException e) {
-			System.out.println("Error drawing the upper bullets");
-			e.printStackTrace();
-		}
-	}
-
-	private void drawBigBullet(int x, int y, int width, int height, String texture,Graphics g){
-		File TextureToLoad = new File(texture);
-		try {
-			Image myImage = ImageIO.read(TextureToLoad); 
-			g.drawImage(myImage, x,y, (int)((x+width*0.05)), (int)((y+height*0.05)), 0 , 0, 306, 813, null); 
-		} catch (IOException e) {
-			System.out.println("Error drawing the upper bullets");
+			Syste@@m.out.println("Error drawing the upper bullets");
 			e.printStackTrace();
 		}
 	}
@@ -353,3 +353,9 @@ public class Viewer extends JPanel {
 	// }
 
 }
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: java/lang/System#
