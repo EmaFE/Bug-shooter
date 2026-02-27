@@ -32,18 +32,11 @@ public class GameObject {
 	private String textureLocation; 
 	private String blanktexture="res/blankSprite.png";
 	private int lives;
+	private String name;
 	
 	public GameObject() {}
-	
-    public GameObject(String textureLocation,int width,int height,Point3f centre) { 
-    	hasTextured=true;
-    	this.textureLocation=textureLocation;
-    	this.width=width;
-		 	this.height=height;
-		 	this.centre =centre;
-		}
 
-		public GameObject(String textureLocation,int width,int height,Point3f centre, int lives) { 
+		public GameObject(String name, String textureLocation,int width,int height,Point3f centre, int lives) { 
     	hasTextured=true;
     	this.textureLocation=textureLocation;
     	this.width=width;
@@ -80,5 +73,11 @@ public class GameObject {
 	}
 	public void setLives(int lives){
 		this.lives = lives;
+	}
+	public String getName(){
+		return name;
+	}
+	public void setName(String name){
+		this.name = name;
 	}
 }

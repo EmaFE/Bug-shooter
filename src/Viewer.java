@@ -10,6 +10,7 @@ import java.awt.TexturePaint;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.imageio.ImageIO;
@@ -47,8 +48,24 @@ import util.GameObject;
  */ 
 public class Viewer extends JPanel {
 	private long CurrentAnimationTime= 0; 
+	private Image playerImg;
+	private Image houseImg;
+	private Image upperBgImg;
+	private Image lowerBgImg;
 
-	
+	private Image bulletImg;
+	private Image bigBulletImg;
+
+	private Image spiderImg;
+	private Image antImg;
+	private Image uglyBug1Img;
+	private Image uglyBug2Img;
+	private Image flyImg;
+
+	private ArrayList<Image> healthPlayerImages;
+	private ArrayList<Image> healthHouseImages;
+
+	private Image gameWonImg;
 	BufferedImage[] gameOverFrames = new BufferedImage[4];
 	int imgCount = 0;
 	boolean showingGameOver = true;
@@ -57,6 +74,33 @@ public class Viewer extends JPanel {
 	 
 	public Viewer(Model World) {
 		this.gameworld=World;
+		File playerTexture = new File(gameworld.getPlayer().getTexture());
+		File houseTexture = new File(gameworld.getHouse().getTexture());
+		File upperBgTexture = new File("res/bgs/grass2.png");
+		File lowerBgTexture = new File("res/bgs/dirt1.png");
+
+		File bulletTexture = new File("res/bullets/bullet2.png");
+		File bigBulletTexture = new File("res/bullets/bullet.png");
+
+		File gameWonTexture = new File("res/gameOver/Firework.png");
+
+		try {
+			playerImg = ImageIO.read(playerTexture);
+			houseImg = ImageIO.read(houseTexture);
+			upperBgImg = ImageIO.read(upperBgTexture);
+			lowerBgImg = ImageIO.read(lowerBgTexture);
+			bulletImg = ImageIO.read(bulletTexture);
+			bigBulletImg = ImageIO.read(bigBulletTexture);
+			gameWonImg = ImageIO.read(gameWonTexture);
+		} catch (Exception e) {
+			System.out.println("Coulnd not load an image");
+			e.printStackTrace();
+		}
+		
+		loadHealthPlayerImages();
+		loadHealthHouseImages();
+
+		loadEnemiesImages();
 		loadGameOverImages();
 	}
 
@@ -95,9 +139,17 @@ public class Viewer extends JPanel {
 		int height = (int) gameworld.getPlayer().getHeight();
 		String texture = gameworld.getPlayer().getTexture();
 
+
+		//draw house object
+		int xh = (int) gameworld.getHouse().getCentre().getX();
+		int yh = (int) gameworld.getHouse().getCentre().getY();
+		int widthh = (int) gameworld.getHouse().getWidth();
+		int heighth = (int) gameworld.getHouse().getHeight();
+		String textureh = gameworld.getHouse().getTexture();
+
 		drawUpperBackground(g);
-		if(gameworld.getHouseLife() > 0){
-			drawHouse(g);
+		if(gameworld.getHouse().getLives() > 0){
+			drawHouse(xh, yh, widthh, heighth, textureh, g);
 		}
 		drawBackground(g);
 		drawHealthPlayer(g);
@@ -105,7 +157,7 @@ public class Viewer extends JPanel {
 		drawPlayer(x, y, width, height, texture,g);
 
 		if(gameworld.isAcceptedHouse()){
-			gameworld.setHouseLife(10);
+			gameworld.getHouse().setLives(10);
 		};
 		//change back 
 		gameworld.getBullets().forEach((bullet) ->{ 
@@ -122,127 +174,66 @@ public class Viewer extends JPanel {
 	}}
 
 	private void drawEnemies(int x, int y, int width, int height, String texture, Graphics g) {
-		File TextureToLoad = new File(texture);
-		try {
-			Image myImage = ImageIO.read(TextureToLoad);
-			//The spirte is 32x32 pixel wide and 4 of them are placed together so we need to grab a different one each time 
-			//remember your training :-) computer science everything starts at 0 so 32 pixels gets us to 31  
+		gameworld.getEnemies().forEach((enemy) ->{
 			int currentPositionInAnimation= ((int) (CurrentAnimationTime%4)*32); //slows down animation so every 10 frames we get another frame so every 100ms 
-			g.drawImage(myImage, x,y, x+width, y+height, currentPositionInAnimation  , 0, currentPositionInAnimation+31, 32, null); 
-			
-		} catch (IOException e) {
-			System.out.println("Error drawing the enemies");
-			e.printStackTrace();
-		} 
-		
+			switch (enemy.getName()) {
+				case "spider": g.drawImage(spiderImg, x, y, x+width, y+height, currentPositionInAnimation, 0, currentPositionInAnimation+31, 32, null); break;
+				case "fly": g.drawImage(flyImg, x, y, x+width, y+height, currentPositionInAnimation, 0, currentPositionInAnimation+31, 32, null); break;
+				case "ant": g.drawImage(antImg, x, y, x+width, y+height, currentPositionInAnimation, 0, currentPositionInAnimation+31, 32, null); break;
+				case "ugly1": g.drawImage(uglyBug1Img, x, y, x+width, y+height, currentPositionInAnimation, 0, currentPositionInAnimation+31, 32, null); break;
+				case "ugly2": g.drawImage(uglyBug2Img, x, y, x+width, y+height, currentPositionInAnimation, 0, currentPositionInAnimation+31, 32, null); break;
+				default: break;
+			}
+		});				
 	}
 
 	private void drawBackground(Graphics g){
-		File TextureToLoad = new File("res/bgs/dirt1.png");  
-		try {
-			Image myImage = ImageIO.read(TextureToLoad); 
-			 g.drawImage(myImage, 0,250, 1000, 1000, 0 , 0, 200, 200, null); 
-			
-		} catch (IOException e) {
-			System.out.println("Error drawing the dirt");
-			e.printStackTrace();
-		}
+		g.drawImage(lowerBgImg, 0,250, 1000, 1000, 0 , 0, 200, 200, null); 
 	}
 	
 	private void drawBigBullet(int x, int y, int width, int height, String texture,Graphics g){
-		File TextureToLoad = new File(texture);
-		try {
-			Image myImage = ImageIO.read(TextureToLoad); 
-			 g.drawImage(myImage, x,y, (int)((x+width*0.09)), (int)((y+height*0.09)), 0 , 0, 306, 813, null); 
-			
-		} catch (IOException e) {
-			System.out.println("Error drawing the bullets");
-			e.printStackTrace();
-		}
+		g.drawImage(bigBulletImg, x,y, (int)((x+width*0.09)), (int)((y+height*0.09)), 0 , 0, 306, 813, null); 
 	}
 
 	private void drawBullet(int x, int y, int width, int height, String texture,Graphics g){
-		File TextureToLoad = new File(texture);
-		try {
-			Image myImage = ImageIO.read(TextureToLoad); 
-			g.drawImage(myImage, x,y, (int)((x+width*0.03)), (int)((y+height*0.03)), 0 , 0, 306, 600, null); 
-		} catch (IOException e) {
-			System.out.println("Error drawing the big bullets");
-			e.printStackTrace();
-		}
+		g.drawImage(bulletImg, x,y, (int)((x+width*0.03)), (int)((y+height*0.03)), 0 , 0, 306, 600, null); 
 	}
 
 	private void drawPlayer(int x, int y, int width, int height, String texture,Graphics g) { 
-		File TextureToLoad = new File(texture); 
-		try {
-			Image myImage = ImageIO.read(TextureToLoad);
 			//The spirte is 32x32 pixel wide and 4 of them are placed together so we need to grab a different one each time 
 			//remember your training :-) computer science everything starts at 0 so 32 pixels gets us to 31  
 			int currentPositionInAnimation= ((int) ((CurrentAnimationTime%30)/10))*32; //slows down animation so every 10 frames we get another frame so every 100ms 
-			g.drawImage(myImage, x,y, x+width, y+height, currentPositionInAnimation  , 0, currentPositionInAnimation+31, 32, null); 
-			
-		} catch (IOException e) {
-			System.out.println("Error drawing the house");
-			e.printStackTrace();
+			g.drawImage(playerImg, x,y, x+width, y+height, currentPositionInAnimation  , 0, currentPositionInAnimation+31, 32, null); 
 		} 
 		 
 		//g.drawImage(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, observer));
 		//Lighnting Png from https://opengameart.org/content/animated-spaceships  its 32x32 thats why I know to increament by 32 each time 
-		// Bullets from https://opengameart.org/forumtopic/tatermands-art 
-		// background image from https://www.needpix.com/photo/download/677346/space-stars-nebula-background-galaxy-universe-free-pictures-free-photos-free-images
-		
-	}
+	
 
 	private void drawUpperBackground(Graphics g){
-		File TextureToLoad = new File("res/bgs/grass2.png");
-		try{
-			Image myImage = ImageIO.read(TextureToLoad); 
-			 g.drawImage(myImage, 0,0, 1000, 250, 0 , 300, 300, 480, null); 
-			
-		} catch (IOException e) {
-			System.out.println("Error drawing the grass");
-			e.printStackTrace();
-		}
+		g.drawImage(upperBgImg, 0,0, 1000, 250, 0 , 300, 300, 480, null); 
 	}
 
-	private void drawHouse(Graphics g){
-		File TextureToLoad = new File("res/bgs/house.png");
-		try {
-			Image myImage = ImageIO.read(TextureToLoad); 
-			 g.drawImage(myImage, 45,75, 170, 260, 0 , 0, 64, 64, null); 
-			
-		} catch (IOException e) {
-			System.out.println("Error drawing the house");
-			e.printStackTrace();
-		}
+	private void drawHouse(int x, int y, int width, int height, String texture,Graphics g){
+		g.drawImage(houseImg, x, y , x+width, y+height, 0,0, 64, 64, null); 
 	}
 
 	private void drawHealthHouse(Graphics g){
-		int life = gameworld.getHouseLife();
-		File TextureToLoad = new File("res/houseHealth/VIDA_" + life + ".png");
-		try {
-			Image myImage = ImageIO.read(TextureToLoad); 
-			//shrink image
-			 g.drawImage(myImage, 35, 15, (int)((35+378)*0.5), (int)((15+38)*0.5), 0, 0, 378, 38, null); 
-			
-		} catch (IOException e) {
-			System.out.println("Error drawing the health house bar");
-			e.printStackTrace();
-		}
+		healthHouseImages.forEach((image) ->{
+			int index = healthHouseImages.indexOf(image);
+			if( index == gameworld.getHouse().getLives()){
+				g.drawImage(image, 35, 15, (int)((35+378)*0.5), (int)((15+38)*0.5), 0, 0, 378, 38, null); 
+			}
+		});
 	}
 
 	private void drawHealthPlayer(Graphics g){
-		int life = gameworld.getHumanLife();
-		File TextureToLoad = new File("res/playerHealth/" + life +".png");
-		try {
-			Image myImage = ImageIO.read(TextureToLoad); 
-
-			 g.drawImage(myImage, 800,15, 800+54, 15+17, 0 , 0, 54, 17, null); 
-			
-		} catch (IOException e) {
-			System.out.println("Error drawing the health player hearts + file path: " + TextureToLoad.getPath());
-			e.printStackTrace();
-		}
+		healthPlayerImages.forEach((image) ->{
+			int index = healthPlayerImages.indexOf(image);
+			if( index == gameworld.getPlayer().getLives()){
+				g.drawImage(image, 800,15, 800+54, 15+17, 0 , 0, 54, 17, null); 
+			}
+		});
 	}
 
 	private void drawGameOver(Graphics g) {
@@ -266,11 +257,6 @@ public class Viewer extends JPanel {
 	}
 
 	private void drawGameWon(Graphics g) {
-
-		File TextureToLoad = new File("res/gameOver/Firework.png"); 
-		try {
-			Image myImage = ImageIO.read(TextureToLoad);
-
 			int fwidth = 256;
 			int fheight = 256;
 
@@ -282,12 +268,12 @@ public class Viewer extends JPanel {
 			int srcX = (findex % cols) * fwidth;
 			int srcY = (findex / cols) * fheight;
 
-			g.drawImage(myImage,150, 150, 150 + 300, 150 + 300, srcX, srcY, srcX + fwidth, srcY + fheight,null);
-			g.drawImage(myImage,320, 260, 320 + 300, 260 + 300, srcX, srcY, srcX + fwidth, srcY + fheight,null);
-			g.drawImage(myImage,150, 450, 150 + 300, 450 + 300, srcX, srcY, srcX + fwidth, srcY + fheight,null);			
-			g.drawImage(myImage,450, 150, 450 + 300, 150 + 300, srcX, srcY, srcX + fwidth, srcY + fheight,null);
-			g.drawImage(myImage,650, 250, 650 + 300, 250 + 300, srcX, srcY, srcX + fwidth, srcY + fheight,null);
-			g.drawImage(myImage,450, 450, 450 + 300, 450 + 300, srcX, srcY, srcX + fwidth, srcY + fheight,null);						
+			g.drawImage(gameWonImg,150, 150, 150 + 300, 150 + 300, srcX, srcY, srcX + fwidth, srcY + fheight,null);
+			g.drawImage(gameWonImg,320, 260, 320 + 300, 260 + 300, srcX, srcY, srcX + fwidth, srcY + fheight,null);
+			g.drawImage(gameWonImg,150, 450, 150 + 300, 450 + 300, srcX, srcY, srcX + fwidth, srcY + fheight,null);			
+			g.drawImage(gameWonImg,450, 150, 450 + 300, 150 + 300, srcX, srcY, srcX + fwidth, srcY + fheight,null);
+			g.drawImage(gameWonImg,650, 250, 650 + 300, 250 + 300, srcX, srcY, srcX + fwidth, srcY + fheight,null);
+			g.drawImage(gameWonImg,450, 450, 450 + 300, 450 + 300, srcX, srcY, srcX + fwidth, srcY + fheight,null);						
 
 
 			g.create(250, 850, 300, 100);
@@ -298,11 +284,6 @@ public class Viewer extends JPanel {
 			g.drawString("YOU WON!", 150, 750);
 			g.drawString("You protected yourself and your house!", 150, 790);
 			g.drawString("You are now bug-free!", 150, 820);
-			
-		} catch (IOException e) {
-			System.out.println("Error drawing the fireworks");
-			e.printStackTrace();
-		} 
 	}
 
 	public void loadGameOverImages() {
@@ -316,6 +297,50 @@ public class Viewer extends JPanel {
     }
 }
 
-	
+	public void loadEnemiesImages(){
+		gameworld.getEnemies().forEach((enemy) ->{
+			String enemyName = enemy.getName();
+			try {
+				switch (enemyName){
+				case "spider": ImageIO.read(new File("res/enemies/spider.png"));break;
+				case "fly": ImageIO.read(new File("res/enemies/fly.png"));break;
+				case "ant": ImageIO.read(new File("res/enemies/ant.png"));break;
+				case "ugly1": ImageIO.read(new File("res/enemies/spider.png"));break;
+				case "ugly2": ImageIO.read(new File("res/enemies/spider.png"));break;
+				default: System.out.println("No picture to load for this enemy");break;
+			}
+				
+			} catch (Exception e) {
+				System.out.println("Error retrieving an enemy");
+				e.printStackTrace();
+			}
+			
+		});
+	}
 
+	public void loadHealthHouseImages(){
+		int houseLife = gameworld.getHouse().getLives();
+		healthHouseImages.forEach((health) ->{
+			File healthHouseTexture = new File("res/houseHealth/VIDA_" + houseLife +".png");
+			try {
+				health = ImageIO.read(healthHouseTexture);
+			} catch (Exception e) {
+				System.out.println("House health picture not found");
+				e.printStackTrace();
+			}
+		});
+	}
+
+	public void loadHealthPlayerImages(){
+		int playerLife = gameworld.getPlayer().getLives();
+		healthPlayerImages.forEach((health) ->{
+			File healthPlayerTexture = new File("res/playerHealth/" + playerLife +".png");
+			try {
+				health = ImageIO.read(healthPlayerTexture);
+			} catch (Exception e) {
+				System.out.println("Player health picture not found");
+				e.printStackTrace();
+			}
+		});
+	}
 }

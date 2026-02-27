@@ -33,12 +33,11 @@ import util.Vector3f;
 public class Model {
 	
 	private GameObject player;
+	private GameObject house;
 	private Controller controller = Controller.getInstance();
 	//some bugs have 2 lives, so they need to be shot twice + some are faster
 	private CopyOnWriteArrayList<GameObject> enemiesList  = new CopyOnWriteArrayList<GameObject>();
 	private CopyOnWriteArrayList<GameObject> bulletList  = new CopyOnWriteArrayList<GameObject>();
-	private int humanLife = 6;
-	private int houseLife = 10;
 	//you get +1 for each bug you kill, so even if you lose your house, you can buy it back if you kill enough bugs while trying to protect your house
 	private int money = 0;
 	private boolean showHousePopUp = false;
@@ -56,14 +55,22 @@ public class Model {
 	private boolean gameWon = false;
 
 	public GameObject generateEnemy(){
-		//make them bigger nad idffrenet sizes
+		/*
+		2 of each 
+		the ones with 1 life: flies, spider, ant
+		the ones with 2 lives: idle bugs
+		*/
 		ArrayList<GameObject> enemies = new ArrayList<>();
-		enemies.add(new GameObject("res/enemies/spider.png",70,70,new Point3f(((float)Math.random()*1000 ),900,0), 2));
-		// enemies.add(new GameObject("res/enemies/fly.png",50,50,new Point3f(((float)Math.random()*1000 ),900,0)));
-		// enemies.add(new GameObject("res/enemies/fly.png",50,50,new Point3f(((float)Math.random()*1000 ),900,0)));
-		enemies.add(new GameObject("res/enemies/spider.png",70,70,new Point3f(((float)Math.random()*1000 ),900,0), 2));
-		enemies.add(new GameObject("res/enemies/spider.png",70,70,new Point3f(((float)Math.random()*1000 ),900,0), 2));
-		enemies.add(new GameObject("res/enemies/spider.png",70,70,new Point3f(((float)Math.random()*1000 ),900,0), 2));
+		enemies.add(new GameObject("spider","res/enemies/spider.png",70,70,new Point3f(((float)Math.random()*1000 ),900,0), 1));
+		enemies.add(new GameObject("spider","res/enemies/spider.png",70,70,new Point3f(((float)Math.random()*1000 ),900,0), 1));
+		enemies.add(new GameObject("fly","res/enemies/fly.png",50,50,new Point3f(((float)Math.random()*1000 ),900,0), 1));
+		enemies.add(new GameObject("fly","res/enemies/fly.png",50,50,new Point3f(((float)Math.random()*1000 ),900,0), 1));
+		enemies.add(new GameObject("ant","res/enemies/ant.png",50,50,new Point3f(((float)Math.random()*1000 ),900,0), 1));
+		enemies.add(new GameObject("ant","res/enemies/ant.png",50,50,new Point3f(((float)Math.random()*1000 ),900,0), 1));
+		enemies.add(new GameObject("ugly1","res/enemies/ugly1.png",70,70,new Point3f(((float)Math.random()*1000 ),900,0), 2));
+		enemies.add(new GameObject("ugly1","res/enemies/ugly1.png",70,70,new Point3f(((float)Math.random()*1000 ),900,0), 2));
+		enemies.add(new GameObject("ugly2","res/enemies/ugly2.png",70,70,new Point3f(((float)Math.random()*1000 ),900,0), 2));
+		enemies.add(new GameObject("ugly2","res/enemies/ugly2.png",70,70,new Point3f(((float)Math.random()*1000 ),900,0), 2));
 
 		int index = new Random().nextInt(enemies.size());
 		return enemies.get(index);
@@ -72,7 +79,8 @@ public class Model {
 	public Model() {
 		//setup game world 
 		//Player 
-		player= new GameObject("res/npcmaleidle.png",32,86,new Point3f(500,165,0));
+		player= new GameObject("player","res/npcmaleidle.png",32,86,new Point3f(500,165,0), 6);
+		house= new GameObject("house","res/bgs/house.png", 125, 185, new Point3f(45,75,0), 10);
 		//Enemies  starting with four ''
 
 		while(enemiesList.size() < 6){
@@ -122,39 +130,38 @@ public class Model {
 		}
 
 		//chnage 0 back to 80 for money > 0 when not testing in game
-		if(money > 80 && money % 2 == 0 && getShowOnceH() == false && !getShowHousePopUp() && getHouseLife() == 0){
+		if(money > 80 && money % 2 == 0 && getShowOnceH() == false && !getShowHousePopUp() && getHouse().getLives() == 0){
 			setShowOnceH(true);
 			setShowHousePopUp(true);
 			setMoney(money - 80);
 		}
 
 		//implement logic for when the game is over (human life == 0) -> big bug crawls from bottom screen + "GAME OVER" middle screen
-		if (humanLife == 0){
+		if (player.getLives() == 0){
 			setGameOver(true);
 		}
 
-		if(money == 100){
+		if(getMoney() == 100){
 			setGameWon(true);
 		}
 			
 	}
 
 
-	
 	private boolean collision(GameObject enemy){
 		float xCenter = enemy.getCentre().getX() + enemy.getWidth()/2.0f;
 		float yCenter = enemy.getCentre().getY() + enemy.getHeight()/2.0f;
 
 		//collision if it's underneath the bottom line of the house
 		//doesnt work if enemies come from the side
-		if(xCenter >= 45 && xCenter <= 45 + 125 && yCenter <= 75+185 && houseLife > 0){
-			houseLife--;
+		if(xCenter >= house.getCentre().getX() && xCenter <= house.getCentre().getX() + house.getWidth() && yCenter <= house.getCentre().getY() + house.getHeight() && house.getLives() > 0){
+			house.setLives(house.getLives() - 1);
 			return true;
 		}
 		
 		//collission with the player if it's underneath the player
-		if(xCenter >= player.getCentre().getX() && xCenter <= player.getCentre().getX() + player.getWidth() && yCenter <= player.getCentre().getY() + player.getHeight() && humanLife > 0){
-			humanLife--;
+		if(xCenter >= player.getCentre().getX() && xCenter <= player.getCentre().getX() + player.getWidth() && yCenter <= player.getCentre().getY() + player.getHeight() && player.getLives() > 0){
+			player.setLives(player.getLives() - 1);
 			return true;
 		} 
 
@@ -167,7 +174,7 @@ public class Model {
 			//have 1 in 3 enemies traget the house, the rest target the player
 			//chnage back to 3, 1 is after testign for house collisions
 			
-			if(enemiesList.indexOf(enemy) % 3 == 0 && getHouseLife() !=  0){
+			if(enemiesList.indexOf(enemy) % 3 == 0 && getHouse().getLives() !=  0){
 
 			float targetLocationX = 45 + 135/2;
 			float targetLocationY = 75 + 185/2;
@@ -260,15 +267,20 @@ public class Model {
 
 	private void createBullet() {
 		if (acceptedBigBullet){
-			bulletList.add(new GameObject("res/bullets/bullet.png", 306, 600, new Point3f(player.getCentre().getX(), player.getCentre().getY(), 0.0f)));
+			bulletList.add(new GameObject("bullet", "res/bullets/bullet.png", 306, 600, new Point3f(player.getCentre().getX(), player.getCentre().getY(), 0.0f), 1));
 		} else{
-			bulletList.add(new GameObject("res/bullets/bullet2.png",306,813,new Point3f(player.getCentre().getX(),player.getCentre().getY(),0.0f)));
+			bulletList.add(new GameObject("bullet","res/bullets/bullet2.png",306,813,new Point3f(player.getCentre().getX(),player.getCentre().getY(),0.0f), 1));
 		}
 	}
 
 
+
+
 	public GameObject getPlayer() {
 		return player;
+	}
+	public GameObject getHouse(){
+		return house;
 	}
 	public CopyOnWriteArrayList<GameObject> getEnemies() {
 		return enemiesList;
@@ -282,18 +294,18 @@ public class Model {
 	public void setMoney(int newMoney){
 		money = newMoney;
 	}
-	public int getHumanLife(){
-		return humanLife;
-	}
-	public void setHumanLife(int newHumanLife){
-		humanLife = newHumanLife;
-	}
-	public int getHouseLife(){
-		return houseLife;
-	}
-	public void setHouseLife(int newHouseLife){
-		houseLife = newHouseLife;
-	}
+	// public int getHumanLife(){
+	// 	return player.getLives();
+	// }
+	// public void setHumanLife(int newHumanLife){
+	// 	player.setLives(newHumanLife);
+	// }
+	// public int getHouseLife(){
+	// 	return house.getLives();
+	// }
+	// public void setHouseLife(int newHouseLife){
+	// 	house.setLives(newHouseLife);
+	// }
 	public boolean getShowHousePopUp(){
 		return showHousePopUp;
 	}
