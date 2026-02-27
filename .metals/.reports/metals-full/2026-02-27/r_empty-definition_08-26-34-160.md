@@ -1,3 +1,14 @@
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/PopUp.java:java/awt/event/ActionListener#
+file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/PopUp.java
+empty definition using pc, found symbol in pc: java/awt/event/ActionListener#
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 1000
+uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/PopUp.java
+text:
+```scala
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -18,13 +29,13 @@ public class PopUp extends JDialog {
 
         JLabel label = new JLabel(text, SwingConstants.CENTER);
         add(label, BorderLayout.CENTER);
-        JButton yesBtn = new JButton(firstBtnText);
-        JButton noBtn = new JButton(seconfBtnText);
+        JButton yesBtn = new JButton("[alt + y] Bigger");
+        JButton noBtn = new JButton("[alt + n] Faster");
 
         yesBtn.setMnemonic('y');
         noBtn.setMnemonic('n');
 
-        yesBtn.addActionListener(new ActionListener() {
+        yesBtn.addActionListener(new ActionListene@@r() {
             @Override
             public void actionPerformed(ActionEvent e) {
               accepted = true;
@@ -52,3 +63,9 @@ public class PopUp extends JDialog {
         return accepted;
     }
 }
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: java/awt/event/ActionListener#

@@ -38,7 +38,7 @@ public class Model {
 	private CopyOnWriteArrayList<GameObject> enemiesList  = new CopyOnWriteArrayList<GameObject>();
 	private CopyOnWriteArrayList<GameObject> bulletList  = new CopyOnWriteArrayList<GameObject>();
 	private int humanLife = 6;
-	private int houseLife = 10;
+	private int houseLife = 0;
 	//you get +1 for each bug you kill, so even if you lose your house, you can buy it back if you kill enough bugs while trying to protect your house
 	private int money = 0;
 	private boolean showHousePopUp = false;
@@ -83,18 +83,6 @@ public class Model {
 		gameLogic(); 
 	}
 
-	private void buyBullet(){
-		if (!isAcceptedBigBullet()){
-			setAcceptedBigBullet(true);
-		}
-	}
-
-	private void buyHouse(){
-		if (!isAcceptedHouse()){
-			setAcceptedHouse(true);
-		}
-	}
-
 	private void gameLogic() { 
 		// this is a way to increment across the array list data structure 
 
@@ -112,16 +100,17 @@ public class Model {
 		}
 
 		//modify this to 2 adn remove > 0 for testing purposes
-		if(money > 0 && money % 2 == 0 && getShowOnceB() == false && !getShowBulletPopUp()){
+		if(money >= 20 && money % 20 == 0 && getShowOnceB() == false && !getShowBulletPopUp()){
 			setShowOnceB(true);
 			setShowBulletPopUp(true);
 			setMoney(money - 20);
 		}
 
-		if(money > 0 && money % 45 == 0 && getShowOnceH() == false && !getShowHousePopUp()){
+		//chnage 0 back to 80 for money > 0 when not testing in game
+		if(money > 80 && money % 2 == 0 && getShowOnceH() == false && !getShowHousePopUp() && getHouseLife() == 0){
 			setShowOnceH(true);
 			setShowHousePopUp(true);
-			setMoney(money - 45);
+			setMoney(money - 80);
 		}
 
 		//implement logic for when the game is over (human life == 0) -> big bug crawls from bottom screen + "GAME OVER" middle screen
@@ -169,7 +158,8 @@ public class Model {
 
 		for (GameObject enemy : enemiesList){  
 			//have 1 in 3 enemies traget the house, the rest target the player
-			if(enemiesList.indexOf(enemy) % 2 == 0){
+			//chnage back to 3, 1 is for testign purposes
+			if(enemiesList.indexOf(enemy) % 1 == 0){
 
 			float targetLocationX = 45 + 135/2;
 			float targetLocationY = 75 + 185/2;

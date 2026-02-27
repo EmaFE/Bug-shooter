@@ -122,7 +122,7 @@ public class MainWindow {
 		gameworld.gamelogic();
 
 		if(gameworld.getShowBulletPopUp()){
-			PopUp popup = new PopUp(frame, "Do you want a bigger bullet or a faster bullet?");
+			PopUp popup = new PopUp(frame, "Do you want a bigger bullet or a faster bullet?", "[alt + y] Bigger", "[alt + n] Faster");
 			popup.setVisible(true); 
 			
 			if (popup.isAccepted()) {
@@ -143,6 +143,31 @@ public class MainWindow {
 
 				gameworld.setAcceptedFasterBullet(true);
 				gameworld.setShowBulletPopUp(false);
+			}
+		}
+
+		if(gameworld.getShowHousePopUp()){
+			PopUp popup = new PopUp(frame, "Do you want buy back your house?", "[alt + y] Yes", "[alt + n] No");
+			popup.setVisible(true); 
+			
+			if (popup.isAccepted()) {
+				System.out.println("Pressed Yes");
+				canvas.setVisible(true);
+				canvas.addKeyListener(controllerK);
+				canvas.addMouseListener(controllerM);
+				canvas.requestFocusInWindow();
+
+				gameworld.setAcceptedHouse(true);
+				gameworld.setShowHousePopUp(false);
+			} else {
+				System.out.println("Pressed No");
+				canvas.setVisible(true);
+				canvas.addKeyListener(controllerK);
+				canvas.addMouseListener(controllerM);
+				canvas.requestFocusInWindow();
+
+				gameworld.setAcceptedHouse(true);
+				gameworld.setShowHousePopUp(false);
 			}
 		}
 		

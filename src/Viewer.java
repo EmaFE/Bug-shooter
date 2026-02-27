@@ -97,7 +97,7 @@ public class Viewer extends JPanel {
 			drawGameOver(g);
 		};
 		if(gameworld.isAcceptedHouse()){
-			drawHouse(g);
+			gameworld.setHouseLife(10);
 		};
 		//change back 
 		gameworld.getBullets().forEach((bullet) ->{ 
