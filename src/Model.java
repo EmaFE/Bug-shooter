@@ -33,7 +33,6 @@ import util.Vector3f;
 public class Model {
 	
 	private GameObject player;
-	private GameObject gameOverBug;
 	private Controller controller = Controller.getInstance();
 	//some bugs have 2 lives, so they need to be shot twice + some are faster
 	private CopyOnWriteArrayList<GameObject> enemiesList  = new CopyOnWriteArrayList<GameObject>();
@@ -59,10 +58,12 @@ public class Model {
 	public GameObject generateEnemy(){
 		//make them bigger nad idffrenet sizes
 		ArrayList<GameObject> enemies = new ArrayList<>();
-		enemies.add(new GameObject("res/spider.png",70,70,new Point3f(((float)Math.random()*1000 ),900,0)));
-		enemies.add(new GameObject("res/fly.png",50,50,new Point3f(((float)Math.random()*1000 ),900,0)));
-		enemies.add(new GameObject("res/fly.png",50,50,new Point3f(((float)Math.random()*1000 ),900,0)));
-		enemies.add(new GameObject("res/spider.png",50,50,new Point3f(((float)Math.random()*1000 ),900,0)));
+		enemies.add(new GameObject("res/enemies/spider.png",70,70,new Point3f(((float)Math.random()*1000 ),900,0), 2));
+		// enemies.add(new GameObject("res/enemies/fly.png",50,50,new Point3f(((float)Math.random()*1000 ),900,0)));
+		// enemies.add(new GameObject("res/enemies/fly.png",50,50,new Point3f(((float)Math.random()*1000 ),900,0)));
+		enemies.add(new GameObject("res/enemies/spider.png",70,70,new Point3f(((float)Math.random()*1000 ),900,0), 2));
+		enemies.add(new GameObject("res/enemies/spider.png",70,70,new Point3f(((float)Math.random()*1000 ),900,0), 2));
+		enemies.add(new GameObject("res/enemies/spider.png",70,70,new Point3f(((float)Math.random()*1000 ),900,0), 2));
 
 		int index = new Random().nextInt(enemies.size());
 		return enemies.get(index);
@@ -100,9 +101,13 @@ public class Model {
 		// using enhanced for-loop style as it makes it alot easier both code wise and reading wise too 
 		for (GameObject enemy : enemiesList){
 			for (GameObject bullet : bulletList){
-				if ( Math.abs(enemy.getCentre().getX() - bullet.getCentre().getX()) < enemy.getWidth() 
+				if (Math.abs(enemy.getCentre().getX() - bullet.getCentre().getX()) < enemy.getWidth() 
 					&& Math.abs(enemy.getCentre().getY() - bullet.getCentre().getY()) < enemy.getHeight()){
-						enemiesList.remove(enemy);
+						if(enemy.getLives() == 1){
+							enemiesList.remove(enemy);
+						} else{
+							enemy.setLives(enemy.getLives() - 1);
+						}
 						bulletList.remove(bullet);
 						setMoney(getMoney() + 1);
 				}  
@@ -135,7 +140,7 @@ public class Model {
 	}
 
 
-		// COME BACK TO THIS
+	
 	private boolean collision(GameObject enemy){
 		float xCenter = enemy.getCentre().getX() + enemy.getWidth()/2.0f;
 		float yCenter = enemy.getCentre().getY() + enemy.getHeight()/2.0f;
@@ -162,7 +167,7 @@ public class Model {
 			//have 1 in 3 enemies traget the house, the rest target the player
 			//chnage back to 3, 1 is after testign for house collisions
 			
-			if(enemiesList.indexOf(enemy) % 2 == 0){
+			if(enemiesList.indexOf(enemy) % 3 == 0 && getHouseLife() !=  0){
 
 			float targetLocationX = 45 + 135/2;
 			float targetLocationY = 75 + 185/2;
@@ -181,7 +186,10 @@ public class Model {
 
 				//remove if collion happens or it's at the top of the screen
 			if (collision(enemy) || enemy.getCentre().getY() <= 10.0f){
-				enemiesList.remove(enemy);
+				// enemy.setLives(enemy.getLives() - 1);
+				// 	if(enemy.getLives() == 0){
+						enemiesList.remove(enemy);
+				//	}
 			}
 
 			} else{
@@ -202,7 +210,10 @@ public class Model {
 
 				//remove if collion happens or it's at the top of the screen
 				if (collision(enemy) || enemy.getCentre().getY() <= 10.0f){
-					enemiesList.remove(enemy);
+					// enemy.setLives(enemy.getLives() - 1);
+					// if(enemy.getLives() == 0){
+						enemiesList.remove(enemy);
+				//	}
 				}
 			}
 			//with while it adds more enemies into one frame, as oppsed to adding one each frame if there was only an if statment
@@ -220,9 +231,9 @@ public class Model {
 
 		for (GameObject bullet : bulletList){
 			if(acceptedFasterBullet){
-				bullet.getCentre().ApplyVector(new Vector3f(0,3,0));
+				bullet.getCentre().ApplyVector(new Vector3f(0,5,0));
 			} else{
-				bullet.getCentre().ApplyVector(new Vector3f(0,1,0));
+				bullet.getCentre().ApplyVector(new Vector3f(0,2,0));
 			}
 			//see if they get to the top of the screen ( remember 0 is the top )
 			//anything more that aprox 900, the bullet gets stuck at the bottom
@@ -249,9 +260,9 @@ public class Model {
 
 	private void createBullet() {
 		if (acceptedBigBullet){
-			bulletList.add(new GameObject("res/bullet.png", 306, 600, new Point3f(player.getCentre().getX(), player.getCentre().getY(), 0.0f)));
+			bulletList.add(new GameObject("res/bullets/bullet.png", 306, 600, new Point3f(player.getCentre().getX(), player.getCentre().getY(), 0.0f)));
 		} else{
-			bulletList.add(new GameObject("res/bullet2.png",306,813,new Point3f(player.getCentre().getX(),player.getCentre().getY(),0.0f)));
+			bulletList.add(new GameObject("res/bullets/bullet2.png",306,813,new Point3f(player.getCentre().getX(),player.getCentre().getY(),0.0f)));
 		}
 	}
 
@@ -301,14 +312,12 @@ public class Model {
 	public void setAcceptedBigBullet(boolean acceptedBigBullet) {
 		this.acceptedBigBullet = acceptedBigBullet;
 	}
-
 	public boolean isAcceptedFasterBullet() {
 		return acceptedFasterBullet;
 	}
 	public void setAcceptedFasterBullet(boolean acceptedFasterBullet) {
 		this.acceptedFasterBullet = acceptedFasterBullet;
 	}
-
 	public boolean isAcceptedHouse() {
 		return acceptedHouse;
 	}
@@ -324,7 +333,6 @@ public class Model {
 	public Controller getController(){
 		return controller;
 	}
-
 	public boolean getShowOnceB(){
 		return showOnceB;
 	}
@@ -337,11 +345,9 @@ public class Model {
 	public void setShowOnceH(boolean showOnceH){
 		this.showOnceH = showOnceH;
 	}
-
 	public int getGameOverFrameCounter(){
 		return gameOverFramesCount;
 	}
-
 	public boolean isGameWon(){
 		return gameWon;
 	}

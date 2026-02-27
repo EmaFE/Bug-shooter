@@ -31,6 +31,7 @@ public class GameObject {
 	private boolean hasTextured=false;
 	private String textureLocation; 
 	private String blanktexture="res/blankSprite.png";
+	private int lives;
 	
 	public GameObject() {}
 	
@@ -40,6 +41,15 @@ public class GameObject {
     	this.width=width;
 		 	this.height=height;
 		 	this.centre =centre;
+		}
+
+		public GameObject(String textureLocation,int width,int height,Point3f centre, int lives) { 
+    	hasTextured=true;
+    	this.textureLocation=textureLocation;
+    	this.width=width;
+		 	this.height=height;
+		 	this.centre =centre;
+			this.lives = lives;
 		}
 
 	public Point3f getCentre() {
@@ -65,4 +75,10 @@ public class GameObject {
 			}
 		return blanktexture; 
 	} 
+	public int getLives(){
+		return lives;
+	}
+	public void setLives(int lives){
+		this.lives = lives;
+	}
 }

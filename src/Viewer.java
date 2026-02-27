@@ -138,7 +138,7 @@ public class Viewer extends JPanel {
 	}
 
 	private void drawBackground(Graphics g){
-		File TextureToLoad = new File("res/dirt1.png");  
+		File TextureToLoad = new File("res/bgs/dirt1.png");  
 		try {
 			Image myImage = ImageIO.read(TextureToLoad); 
 			 g.drawImage(myImage, 0,250, 1000, 1000, 0 , 0, 200, 200, null); 
@@ -194,7 +194,7 @@ public class Viewer extends JPanel {
 	}
 
 	private void drawUpperBackground(Graphics g){
-		File TextureToLoad = new File("res/grass2.png");
+		File TextureToLoad = new File("res/bgs/grass2.png");
 		try{
 			Image myImage = ImageIO.read(TextureToLoad); 
 			 g.drawImage(myImage, 0,0, 1000, 250, 0 , 300, 300, 480, null); 
@@ -206,7 +206,7 @@ public class Viewer extends JPanel {
 	}
 
 	private void drawHouse(Graphics g){
-		File TextureToLoad = new File("res/house.png");
+		File TextureToLoad = new File("res/bgs/house.png");
 		try {
 			Image myImage = ImageIO.read(TextureToLoad); 
 			 g.drawImage(myImage, 45,75, 170, 260, 0 , 0, 64, 64, null); 
@@ -267,7 +267,7 @@ public class Viewer extends JPanel {
 
 	private void drawGameWon(Graphics g) {
 
-		File TextureToLoad = new File("res/Firework.png"); 
+		File TextureToLoad = new File("res/gameOver/Firework.png"); 
 		try {
 			Image myImage = ImageIO.read(TextureToLoad);
 

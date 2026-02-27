@@ -20,7 +20,6 @@ public class Mouse implements MouseListener {
   public void mouseClicked(MouseEvent e) {
     try {
 			setMouseClicked(true);
-			System.out.println("clicked from Mouse: " + isMouseClicked());
 			mouseX = e.getX();
 			mouseY = e.getY();
 		} catch (Exception ex) {
