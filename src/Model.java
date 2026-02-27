@@ -33,12 +33,13 @@ import util.Vector3f;
 public class Model {
 	
 	private GameObject player;
+	private GameObject gameOverBug;
 	private Controller controller = Controller.getInstance();
 	//some bugs have 2 lives, so they need to be shot twice + some are faster
 	private CopyOnWriteArrayList<GameObject> enemiesList  = new CopyOnWriteArrayList<GameObject>();
 	private CopyOnWriteArrayList<GameObject> bulletList  = new CopyOnWriteArrayList<GameObject>();
-	private int humanLife = 6;
-	private int houseLife = 0;
+	private int humanLife = 1;
+	private int houseLife = 10;
 	//you get +1 for each bug you kill, so even if you lose your house, you can buy it back if you kill enough bugs while trying to protect your house
 	private int money = 0;
 	private boolean showHousePopUp = false;
@@ -51,6 +52,9 @@ public class Model {
 	private boolean acceptedHouse = false;
 
 	private boolean gameOver = false;
+	private int gameOverFramesCount = 0;
+
+	private boolean gameWon = false;
 
 	public GameObject generateEnemy(){
 		//make them bigger nad idffrenet sizes
@@ -77,10 +81,16 @@ public class Model {
 	
 	// This is the heart of the game , where the model takes in all the inputs ,decides the outcomes and then changes the model accordingly. 
 	public void gamelogic(){
+		if(isGameOver()){
+			gameOverFramesCount++;
+		} else if(isGameWon()){
+			return;
+		}else{
 		playerLogic(); 
 		enemyLogic();
 		bulletLogic();
 		gameLogic(); 
+		}
 	}
 
 	private void gameLogic() { 
@@ -115,10 +125,15 @@ public class Model {
 
 		//implement logic for when the game is over (human life == 0) -> big bug crawls from bottom screen + "GAME OVER" middle screen
 		if (humanLife == 0){
-			gameOver = true;
+			setGameOver(true);
 		}
 
+		if(money == 100){
+			setGameWon(true);
+		}
+			
 	}
+
 
 		// COME BACK TO THIS
 	private boolean collision(GameObject enemy){
@@ -144,9 +159,8 @@ public class Model {
 			return true;
 		}
 		
-
 		//collission with the player if it's underneath the player
-		if(xCenter >= player.getCentre().getX() && xCenter <= player.getCentre().getX() + player.getWidth() && yCenter <= player.getCentre().getY() + player.getHeight()){
+		if(xCenter >= player.getCentre().getX() && xCenter <= player.getCentre().getX() + player.getWidth() && yCenter <= player.getCentre().getY() + player.getHeight() && humanLife > 0){
 			humanLife--;
 			return true;
 		} 
@@ -159,7 +173,7 @@ public class Model {
 		for (GameObject enemy : enemiesList){  
 			//have 1 in 3 enemies traget the house, the rest target the player
 			//chnage back to 3, 1 is for testign purposes
-			if(enemiesList.indexOf(enemy) % 1 == 0){
+			if(enemiesList.indexOf(enemy) % 2 == 0){
 
 			float targetLocationX = 45 + 135/2;
 			float targetLocationY = 75 + 185/2;
@@ -245,6 +259,7 @@ public class Model {
 		}
 	}
 
+
 	public GameObject getPlayer() {
 		return player;
 	}
@@ -325,5 +340,16 @@ public class Model {
 	}
 	public void setShowOnceH(boolean showOnceH){
 		this.showOnceH = showOnceH;
+	}
+
+	public int getGameOverFrameCounter(){
+		return gameOverFramesCount;
+	}
+
+	public boolean isGameWon(){
+		return gameWon;
+	}
+	public void setGameWon(boolean gameWon){
+		this.gameWon = gameWon;
 	}
 }

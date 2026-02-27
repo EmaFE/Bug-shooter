@@ -106,8 +106,12 @@ public class MainWindow {
 			
 		//wait till next time step 
 		while (FrameCheck > System.currentTimeMillis()){} 
-			
-		if(startGame && !gameworld.isGameOver()){gameloop();}
+		
+		if(gameworld.isGameOver() && gameworld.getGameOverFrameCounter() <= 4 * 300){
+			canvas.updateview();
+		}
+		if(startGame){gameloop();}
+		
 			
 		//UNIT test to see if framerate matches 
 		 UnitTests.CheckFrameRate(System.currentTimeMillis(),FrameCheck, TargetFPS); 
@@ -117,7 +121,7 @@ public class MainWindow {
 	private static void gameloop() { 		
 		// controller input  will happen on its own thread 
 		// So no need to call it explicitly 
-		
+
 		// model update   
 		gameworld.gamelogic();
 

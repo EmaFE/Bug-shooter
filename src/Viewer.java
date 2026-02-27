@@ -47,13 +47,17 @@ import util.GameObject;
  */ 
 public class Viewer extends JPanel {
 	private long CurrentAnimationTime= 0; 
-	// Rectangle yesBtn = new Rectangle(368, 505, 80, 40);
-	// Rectangle noBtn = new Rectangle(508, 505, 80, 40);
+
+	
+	BufferedImage[] gameOverFrames = new BufferedImage[4];
+	int imgCount = 0;
+	boolean showingGameOver = true;
 	
 	Model gameworld = new Model(); 
 	 
 	public Viewer(Model World) {
 		this.gameworld=World;
+		loadGameOverImages();
 	}
 
 	public Viewer(LayoutManager layout) {
@@ -76,7 +80,14 @@ public class Viewer extends JPanel {
 		
 		super.paintComponent(g);
 		CurrentAnimationTime++; // runs animation time step 
-		
+		if(gameworld.isGameOver()){
+			drawGameOverBg(g);
+			drawGameOver(g);
+		} else if(gameworld.isGameWon()){
+			drawGameOverBg(g);
+			drawGameWon(g);
+		} else{
+
 		//Draw player Game Object 
 		int x = (int) gameworld.getPlayer().getCentre().getX();
 		int y = (int) gameworld.getPlayer().getCentre().getY();
@@ -92,10 +103,7 @@ public class Viewer extends JPanel {
 		drawHealthPlayer(g);
 		drawHealthHouse(g);
 		drawPlayer(x, y, width, height, texture,g);
-	
-		if(gameworld.isGameOver()){
-			drawGameOver(g);
-		};
+
 		if(gameworld.isAcceptedHouse()){
 			gameworld.setHouseLife(10);
 		};
@@ -111,7 +119,7 @@ public class Viewer extends JPanel {
 		gameworld.getEnemies().forEach((enemy) ->{
 			drawEnemies((int) enemy.getCentre().getX(), (int) enemy.getCentre().getY(), (int) enemy.getWidth(), (int) enemy.getHeight(), enemy.getTexture(),g);	 
 	  }); 
-	}
+	}}
 
 	private void drawEnemies(int x, int y, int width, int height, String texture, Graphics g) {
 		File TextureToLoad = new File(texture);
@@ -185,7 +193,7 @@ public class Viewer extends JPanel {
 		
 	}
 
-		private void drawUpperBackground(Graphics g){
+	private void drawUpperBackground(Graphics g){
 		File TextureToLoad = new File("res/grass2.png");
 		try{
 			Image myImage = ImageIO.read(TextureToLoad); 
@@ -238,11 +246,76 @@ public class Viewer extends JPanel {
 	}
 
 	private void drawGameOver(Graphics g) {
-		try {
-			System.out.println("Womp womp, try again");
-		} catch (Exception ex){
-			System.out.println("Error drawing the game over panel.");
-		}
+		//slow it down
+		g.drawImage(gameOverFrames[(gameworld.getGameOverFrameCounter() / 30) % 4],250, 150,250 + 500, 150 + 500,0, 0, 16, 16,null);
+		imgCount++;
+
+		g.create(250, 850, 300, 100);
+		g.setColor(Color.BLACK);
+
+		g.setFont(new Font("Arial", Font.BOLD, 25));
+		g.setColor(Color.WHITE);
+		g.drawString("GAME OVER", 150, 750);
+		g.drawString("You've been eaten by by bugs and", 150, 790);
+		g.drawString("your house has been infested.", 150, 820);
 	}
+
+	public void drawGameOverBg(Graphics g){
+		g.setColor(Color.BLACK);
+		g.fillRect(0,0,1000,1000);
+	}
+
+	private void drawGameWon(Graphics g) {
+
+		File TextureToLoad = new File("res/Firework.png"); 
+		try {
+			Image myImage = ImageIO.read(TextureToLoad);
+
+			int fwidth = 256;
+			int fheight = 256;
+
+		 	int cols = 1536 / fwidth; //=6 cols
+			int ftotal = cols * (1280 / fheight); //=30 frames
+
+			int findex = (int) ((CurrentAnimationTime) % ftotal);
+
+			int srcX = (findex % cols) * fwidth;
+			int srcY = (findex / cols) * fheight;
+
+			g.drawImage(myImage,150, 150, 150 + 300, 150 + 300, srcX, srcY, srcX + fwidth, srcY + fheight,null);
+			g.drawImage(myImage,320, 260, 320 + 300, 260 + 300, srcX, srcY, srcX + fwidth, srcY + fheight,null);
+			g.drawImage(myImage,150, 450, 150 + 300, 450 + 300, srcX, srcY, srcX + fwidth, srcY + fheight,null);			
+			g.drawImage(myImage,450, 150, 450 + 300, 150 + 300, srcX, srcY, srcX + fwidth, srcY + fheight,null);
+			g.drawImage(myImage,650, 250, 650 + 300, 250 + 300, srcX, srcY, srcX + fwidth, srcY + fheight,null);
+			g.drawImage(myImage,450, 450, 450 + 300, 450 + 300, srcX, srcY, srcX + fwidth, srcY + fheight,null);						
+
+
+			g.create(250, 850, 300, 100);
+			g.setColor(Color.BLACK);
+
+			g.setFont(new Font("Arial", Font.BOLD, 25));
+			g.setColor(Color.WHITE);
+			g.drawString("YOU WON!", 150, 750);
+			g.drawString("You protected yourself and your house!", 150, 790);
+			g.drawString("You are now bug-free!", 150, 820);
+			
+		} catch (IOException e) {
+			System.out.println("Error drawing the fireworks");
+			e.printStackTrace();
+		} 
+	}
+
+	public void loadGameOverImages() {
+    try {
+      for (int i = 0; i < 4; i++) {
+        gameOverFrames[i] = ImageIO.read(new File("res/gameOver/SpiderWalking" + i + ".png"));
+      }
+    } catch (IOException e) {
+			System.out.println("Could not load game over image");
+      e.printStackTrace();
+    }
+}
+
+	
 
 }
