@@ -1,11 +1,11 @@
-error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Model.java:_empty_/Controller#
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Model.java:
 file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Model.java
-empty definition using pc, found symbol in pc: _empty_/Controller#
+empty definition using pc, found symbol in pc: 
 empty definition using semanticdb
 empty definition using fallback
 non-local guesses:
 
-offset: 8497
+offset: 10932
 uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Model.java
 text:
 ```scala
@@ -45,7 +45,6 @@ public class Model {
 	
 	private GameObject player;
 	private Controller controller = Controller.getInstance();
-	private Mouse mouse = Mouse.getInstance();
 	//some bugs have 2 lives, so they need to be shot twice + some are faster
 	private CopyOnWriteArrayList<GameObject> enemiesList  = new CopyOnWriteArrayList<GameObject>();
 	private CopyOnWriteArrayList<GameObject> bulletList  = new CopyOnWriteArrayList<GameObject>();
@@ -55,9 +54,12 @@ public class Model {
 	private int money = 0;
 	private boolean showHousePopUp = false;
 	private boolean showBulletPopUp = false;
+	private boolean showOnceB = false;
+	private boolean showOnceH = false;
 
-	private boolean acceptedBullet = false;
-	private boolean acceptedHOuse = false;
+	private boolean acceptedBigBullet = false;
+	private boolean acceptedFasterBullet = false;
+	private boolean acceptedHouse = false;
 
 	private boolean gameOver = false;
 
@@ -93,8 +95,8 @@ public class Model {
 	}
 
 	private void buyBullet(){
-		if (!isAcceptedBullet()){
-			setAcceptedBullet(true);
+		if (!isAcceptedBigBullet()){
+			setAcceptedBigBullet(true);
 		}
 	}
 
@@ -121,12 +123,14 @@ public class Model {
 		}
 
 		//modify this to 2 adn remove > 0 for testing purposes
-		if(money > 0 && money % 2 == 0 && !getShowBulletPopUp()){
+		if(money > 0 && money % 2 == 0 && getShowOnceB == false && !getShowBulletPopUp()){
+			setShowOnceB(true);
 			setShowBulletPopUp(true);
 			setMoney(money - 20);
 		}
 
-		if(money > 0 && money % 45 == 0 && !getShowHousePopUp()){
+		if(money > 0 && money % 45 == 0 && getShowOnceH == false && !getShowHousePopUp()){
+			setShowOnceH(true);
 			setShowHousePopUp(true);
 			setMoney(money - 45);
 		}
@@ -226,7 +230,11 @@ public class Model {
 	private void bulletLogic() {	  
 
 		for (GameObject bullet : bulletList){
-			bullet.getCentre().ApplyVector(new Vector3f(0,1,0));
+			if(acceptedFasterBullet){
+				bullet.getCentre().ApplyVector(new Vector3f(0,3,0));
+			} else{
+				bullet.getCentre().ApplyVector(new Vector3f(0,1,0));
+			}
 			//see if they get to the top of the screen ( remember 0 is the top )
 			//anything more that aprox 900, the bullet gets stuck at the bottom
 			if (bullet.getCentre().getY()==900){
@@ -243,15 +251,19 @@ public class Model {
 		if(Controller.getInstance().isKeyDPressed()){
 			player.getCentre().ApplyVector( new Vector3f(2,0,0));
 		}
-		if(Controller.getInstance().isKeySpacePressed() || Controller.getInstance().isMouseClicked()){
+		if(Controller.getInstance().isKeySpacePressed() || Mouse.getInstance().isMouseClicked()){
 			createBullet();
-			Mouse.getInstance().setKeySpacePressed(false);
-			Contro@@ller.getInstance().setMouseClicked(false);
+			Controller.getInstance().setKeySpacePressed(false);
+			Mouse.getInstance().setMouseClicked(false);
 		} 	
 	}
 
 	private void createBullet() {
-		bulletList.add(new GameObject("res/bullet.png",306,813,new Point3f(player.getCentre().getX(),player.getCentre().getY(),0.0f)));
+		if (acceptedBigBullet){
+			bulletList.add(new GameObject("res/bullet.png", 306, 600, new Point3f(player.getCentre().getX(), player.getCentre().getY(), 0.0f)));
+		} else{
+			bulletList.add(new GameObject("res/bullet2.png",306,813,new Point3f(player.getCentre().getX(),player.getCentre().getY(),0.0f)));
+		}
 	}
 
 	public GameObject getPlayer() {
@@ -293,17 +305,25 @@ public class Model {
 	public void setShowBulletPopUp( boolean newPopUp){
 		showBulletPopUp = newPopUp;
 	}
-  public boolean isAcceptedBullet() {
-		return acceptedBullet;
+  public boolean isAcceptedBigBullet() {
+		return acceptedBigBullet;
 	}
-	public void setAcceptedBullet(boolean acceptedBullet) {
-		this.acceptedBullet = acceptedBullet;
+	public void setAcceptedBigBullet(boolean acceptedBigBullet) {
+		this.acceptedBigBullet = acceptedBigBullet;
 	}
+
+	public boolean isAcceptedFasterBullet() {
+		return acceptedFasterBullet;
+	}
+	public void setAcceptedFasterBullet(boolean acceptedFasterBullet) {
+		this.acceptedFasterBullet = acceptedFasterBullet;
+	}
+
 	public boolean isAcceptedHouse() {
-		return acceptedHOuse;
+		return acceptedHouse;
 	}
-	public void setAcceptedHouse(boolean acceptedHOuse) {
-		this.acceptedHOuse = acceptedHOuse;
+	public void setAcceptedHouse(boolean acceptedHouse) {
+		this.acceptedHouse = acceptedHouse;
 	}
 	public boolean isGameOver(){
 		return gameOver;
@@ -312,13 +332,20 @@ public class Model {
 		this.gameOver = gameOver;
 	}
 	public Controller getController(){
-		//System.out.println("clicked from model:" + controller.isMouseClicked());
 		return controller;
 	}
 
-	public Mouse getMouse(){
-		System.out.println("clicked from model:" + controller.isMouseClicked());
-		return mouse;
+	public boolean getShowOnceB(){
+		return showOnceB;
+	}
+	public@@ void setShowOnceB(boolean showOnceB){
+		this.showOnceB = showOnceB;
+	}
+	public boolean getShowOnceH(){
+		return showOnceH;
+	}
+	public void setShowOnceH(boolean showOnceH){
+		this.showOnceH = showOnceH;
 	}
 }
 ```
@@ -326,4 +353,4 @@ public class Model {
 
 #### Short summary: 
 
-empty definition using pc, found symbol in pc: _empty_/Controller#
+empty definition using pc, found symbol in pc: 

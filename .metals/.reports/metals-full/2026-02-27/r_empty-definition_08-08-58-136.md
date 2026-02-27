@@ -1,3 +1,14 @@
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Model.java:java/util/concurrent/CopyOnWriteArrayList#
+file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Model.java
+empty definition using pc, found symbol in pc: java/util/concurrent/CopyOnWriteArrayList#
+found definition using semanticdb; symbol Model#bulletList.
+empty definition using fallback
+non-local guesses:
+
+offset: 9086
+uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Model.java
+text:
+```scala
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -43,8 +54,6 @@ public class Model {
 	private int money = 0;
 	private boolean showHousePopUp = false;
 	private boolean showBulletPopUp = false;
-	private boolean showOnceB = false;
-	private boolean showOnceH = false;
 
 	private boolean acceptedBigBullet = false;
 	private boolean acceptedFasterBullet = false;
@@ -112,14 +121,12 @@ public class Model {
 		}
 
 		//modify this to 2 adn remove > 0 for testing purposes
-		if(money > 0 && money % 2 == 0 && getShowOnceB() == false && !getShowBulletPopUp()){
-			setShowOnceB(true);
+		if(money > 0 && money % 2 == 0 && !getShowBulletPopUp()){
 			setShowBulletPopUp(true);
 			setMoney(money - 20);
 		}
 
-		if(money > 0 && money % 45 == 0 && getShowOnceH() == false && !getShowHousePopUp()){
-			setShowOnceH(true);
+		if(money > 0 && money % 45 == 0 && !getShowHousePopUp()){
 			setShowHousePopUp(true);
 			setMoney(money - 45);
 		}
@@ -249,16 +256,16 @@ public class Model {
 
 	private void createBullet() {
 		if (acceptedBigBullet){
-			bulletList.add(new GameObject("res/bullet.png", 306, 600, new Point3f(player.getCentre().getX(), player.getCentre().getY(), 0.0f)));
+			bulletList.add(new GameObject("res/bullet2.png", 306, 600, new Point3f(player.getCentre().getX(), player.getCentre().getY(), 0.0f)));
 		} else{
-			bulletList.add(new GameObject("res/bullet2.png",306,813,new Point3f(player.getCentre().getX(),player.getCentre().getY(),0.0f)));
+			bulletList.add(new GameObject("res/bullet.png",306,813,new Point3f(player.getCentre().getX(),player.getCentre().getY(),0.0f)));
 		}
 	}
 
 	public GameObject getPlayer() {
 		return player;
 	}
-	public CopyOnWriteArrayList<GameObject> getEnemies() {
+	public Cop@@yOnWriteArrayList<GameObject> getEnemies() {
 		return enemiesList;
 	}
 	public CopyOnWriteArrayList<GameObject> getBullets() {
@@ -324,16 +331,10 @@ public class Model {
 		return controller;
 	}
 
-	public boolean getShowOnceB(){
-		return showOnceB;
-	}
-	public void setShowOnceB(boolean showOnceB){
-		this.showOnceB = showOnceB;
-	}
-	public boolean getShowOnceH(){
-		return showOnceH;
-	}
-	public void setShowOnceH(boolean showOnceH){
-		this.showOnceH = showOnceH;
-	}
 }
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: java/util/concurrent/CopyOnWriteArrayList#

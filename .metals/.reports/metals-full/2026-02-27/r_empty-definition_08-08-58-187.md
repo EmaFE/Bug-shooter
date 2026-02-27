@@ -1,11 +1,11 @@
-error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Model.java:java/lang/System#
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Model.java:Model#humanLife.
 file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Model.java
-empty definition using pc, found symbol in pc: java/lang/System#
-empty definition using semanticdb
+empty definition using pc, found symbol in pc: 
+found definition using semanticdb; symbol Model#humanLife.
 empty definition using fallback
 non-local guesses:
 
-offset: 10149
+offset: 9360
 uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Model.java
 text:
 ```scala
@@ -45,7 +45,6 @@ public class Model {
 	
 	private GameObject player;
 	private Controller controller = Controller.getInstance();
-	private Mouse mouse = Mouse.getInstance();
 	//some bugs have 2 lives, so they need to be shot twice + some are faster
 	private CopyOnWriteArrayList<GameObject> enemiesList  = new CopyOnWriteArrayList<GameObject>();
 	private CopyOnWriteArrayList<GameObject> bulletList  = new CopyOnWriteArrayList<GameObject>();
@@ -56,8 +55,9 @@ public class Model {
 	private boolean showHousePopUp = false;
 	private boolean showBulletPopUp = false;
 
-	private boolean acceptedBullet = false;
-	private boolean acceptedHOuse = false;
+	private boolean acceptedBigBullet = false;
+	private boolean acceptedFasterBullet = false;
+	private boolean acceptedHouse = false;
 
 	private boolean gameOver = false;
 
@@ -93,8 +93,8 @@ public class Model {
 	}
 
 	private void buyBullet(){
-		if (!isAcceptedBullet()){
-			setAcceptedBullet(true);
+		if (!isAcceptedBigBullet()){
+			setAcceptedBigBullet(true);
 		}
 	}
 
@@ -226,7 +226,11 @@ public class Model {
 	private void bulletLogic() {	  
 
 		for (GameObject bullet : bulletList){
-			bullet.getCentre().ApplyVector(new Vector3f(0,1,0));
+			if(acceptedFasterBullet){
+				bullet.getCentre().ApplyVector(new Vector3f(0,3,0));
+			} else{
+				bullet.getCentre().ApplyVector(new Vector3f(0,1,0));
+			}
 			//see if they get to the top of the screen ( remember 0 is the top )
 			//anything more that aprox 900, the bullet gets stuck at the bottom
 			if (bullet.getCentre().getY()==900){
@@ -243,15 +247,19 @@ public class Model {
 		if(Controller.getInstance().isKeyDPressed()){
 			player.getCentre().ApplyVector( new Vector3f(2,0,0));
 		}
-		if(Controller.getInstance().isKeySpacePressed() || Controller.getInstance().isMouseClicked()){
+		if(Controller.getInstance().isKeySpacePressed() || Mouse.getInstance().isMouseClicked()){
 			createBullet();
 			Controller.getInstance().setKeySpacePressed(false);
-			Controller.getInstance().setMouseClicked(false);
+			Mouse.getInstance().setMouseClicked(false);
 		} 	
 	}
 
 	private void createBullet() {
-		bulletList.add(new GameObject("res/bullet.png",306,813,new Point3f(player.getCentre().getX(),player.getCentre().getY(),0.0f)));
+		if (acceptedBigBullet){
+			bulletList.add(new GameObject("res/bullet2.png", 306, 600, new Point3f(player.getCentre().getX(), player.getCentre().getY(), 0.0f)));
+		} else{
+			bulletList.add(new GameObject("res/bullet.png",306,813,new Point3f(player.getCentre().getX(),player.getCentre().getY(),0.0f)));
+		}
 	}
 
 	public GameObject getPlayer() {
@@ -269,7 +277,7 @@ public class Model {
 	public void setMoney(int newMoney){
 		money = newMoney;
 	}
-	public int getHumanLife(){
+	public@@ int getHumanLife(){
 		return humanLife;
 	}
 	public void setHumanLife(int newHumanLife){
@@ -293,17 +301,25 @@ public class Model {
 	public void setShowBulletPopUp( boolean newPopUp){
 		showBulletPopUp = newPopUp;
 	}
-  public boolean isAcceptedBullet() {
-		return acceptedBullet;
+  public boolean isAcceptedBigBullet() {
+		return acceptedBigBullet;
 	}
-	public void setAcceptedBullet(boolean acceptedBullet) {
-		this.acceptedBullet = acceptedBullet;
+	public void setAcceptedBigBullet(boolean acceptedBigBullet) {
+		this.acceptedBigBullet = acceptedBigBullet;
 	}
+
+	public boolean isAcceptedFasterBullet() {
+		return acceptedFasterBullet;
+	}
+	public void setAcceptedFasterBullet(boolean acceptedFasterBullet) {
+		this.acceptedFasterBullet = acceptedFasterBullet;
+	}
+
 	public boolean isAcceptedHouse() {
-		return acceptedHOuse;
+		return acceptedHouse;
 	}
-	public void setAcceptedHouse(boolean acceptedHOuse) {
-		this.acceptedHOuse = acceptedHOuse;
+	public void setAcceptedHouse(boolean acceptedHouse) {
+		this.acceptedHouse = acceptedHouse;
 	}
 	public boolean isGameOver(){
 		return gameOver;
@@ -312,13 +328,13 @@ public class Model {
 		this.gameOver = gameOver;
 	}
 	public Controller getController(){
-		@@System.out.println("clicked from model:" + controller.isMouseClicked());
 		return controller;
 	}
+
 }
 ```
 
 
 #### Short summary: 
 
-empty definition using pc, found symbol in pc: java/lang/System#
+empty definition using pc, found symbol in pc: 

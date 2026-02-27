@@ -1,3 +1,14 @@
+error id: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Model.java:_empty_/Model#setShowOnceB#
+file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Model.java
+empty definition using pc, found symbol in pc: _empty_/Model#setShowOnceB#
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 4432
+uri: file:///C:/Users/flore/Uni/Y4/Sem2/GameDev/bugShooter/Bug-shooter/src/Model.java
+text:
+```scala
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -112,14 +123,13 @@ public class Model {
 		}
 
 		//modify this to 2 adn remove > 0 for testing purposes
-		if(money > 0 && money % 2 == 0 && getShowOnceB() == false && !getShowBulletPopUp()){
-			setShowOnceB(true);
+		if(money > 0 && money % 2 == 0 && !getShowBulletPopUp()){
+			@@setShowOnceB(true);
 			setShowBulletPopUp(true);
 			setMoney(money - 20);
 		}
 
-		if(money > 0 && money % 45 == 0 && getShowOnceH() == false && !getShowHousePopUp()){
-			setShowOnceH(true);
+		if(money > 0 && money % 45 == 0 && !getShowHousePopUp()){
 			setShowHousePopUp(true);
 			setMoney(money - 45);
 		}
@@ -324,16 +334,10 @@ public class Model {
 		return controller;
 	}
 
-	public boolean getShowOnceB(){
-		return showOnceB;
-	}
-	public void setShowOnceB(boolean showOnceB){
-		this.showOnceB = showOnceB;
-	}
-	public boolean getShowOnceH(){
-		return showOnceH;
-	}
-	public void setShowOnceH(boolean showOnceH){
-		this.showOnceH = showOnceH;
-	}
 }
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: _empty_/Model#setShowOnceB#

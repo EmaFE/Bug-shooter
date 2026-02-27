@@ -96,28 +96,21 @@ public class Viewer extends JPanel {
 		if(gameworld.isGameOver()){
 			drawGameOver(g);
 		};
-		if(gameworld.isAcceptedBigBullet()){
-			drawBigBullet(g);
-		};
 		if(gameworld.isAcceptedHouse()){
 			drawHouse(g);
 		};
 		//change back 
 		gameworld.getBullets().forEach((bullet) ->{ 
-			drawBullet((int) bullet.getCentre().getX(), (int) bullet.getCentre().getY(), (int) bullet.getWidth(), (int) bullet.getHeight(), bullet.getTexture(),g);	 
+			if(gameworld.isAcceptedBigBullet()){
+				drawBigBullet((int) bullet.getCentre().getX(), (int) bullet.getCentre().getY(), (int) bullet.getWidth(), (int) bullet.getHeight(), bullet.getTexture(),g);
+			} else{
+				drawBullet((int) bullet.getCentre().getX(), (int) bullet.getCentre().getY(), (int) bullet.getWidth(), (int) bullet.getHeight(), bullet.getTexture(),g);
+			}	 
 		}); 
 		 
 		gameworld.getEnemies().forEach((enemy) ->{
 			drawEnemies((int) enemy.getCentre().getX(), (int) enemy.getCentre().getY(), (int) enemy.getWidth(), (int) enemy.getHeight(), enemy.getTexture(),g);	 
 	  }); 
-	}
-
-	private void drawBigBullet(Graphics g) {
-		try{
-			System.out.println("Big bullet upgarde");
-		}catch(Exception ex){
-			System.out.println("Error drawing the upgraded bullet");
-		}
 	}
 
 	private void drawEnemies(int x, int y, int width, int height, String texture, Graphics g) {
@@ -148,25 +141,25 @@ public class Viewer extends JPanel {
 		}
 	}
 	
-	private void drawBullet(int x, int y, int width, int height, String texture,Graphics g){
-		File TextureToLoad = new File(texture);
-		try {
-			Image myImage = ImageIO.read(TextureToLoad); 
-			 g.drawImage(myImage, x,y, (int)((x+width*0.05)), (int)((y+height*0.05)), 0 , 0, 306, 813, null); 
-			
-		} catch (IOException e) {
-			System.out.println("Error drawing the upper bullets");
-			e.printStackTrace();
-		}
-	}
-
 	private void drawBigBullet(int x, int y, int width, int height, String texture,Graphics g){
 		File TextureToLoad = new File(texture);
 		try {
 			Image myImage = ImageIO.read(TextureToLoad); 
-			g.drawImage(myImage, x,y, (int)((x+width*0.05)), (int)((y+height*0.05)), 0 , 0, 306, 813, null); 
+			 g.drawImage(myImage, x,y, (int)((x+width*0.09)), (int)((y+height*0.09)), 0 , 0, 306, 813, null); 
+			
 		} catch (IOException e) {
-			System.out.println("Error drawing the upper bullets");
+			System.out.println("Error drawing the bullets");
+			e.printStackTrace();
+		}
+	}
+
+	private void drawBullet(int x, int y, int width, int height, String texture,Graphics g){
+		File TextureToLoad = new File(texture);
+		try {
+			Image myImage = ImageIO.read(TextureToLoad); 
+			g.drawImage(myImage, x,y, (int)((x+width*0.03)), (int)((y+height*0.03)), 0 , 0, 306, 600, null); 
+		} catch (IOException e) {
+			System.out.println("Error drawing the big bullets");
 			e.printStackTrace();
 		}
 	}
@@ -251,105 +244,5 @@ public class Viewer extends JPanel {
 			System.out.println("Error drawing the game over panel.");
 		}
 	}
-
-	// private void drawHousePopUp(Graphics g) {
-	// 	int width = 400;
-	// 	int height = 200;
-	// 	int x = (1000 - 400) / 2;
-	// 	int y = (1000 - 200) / 2;
-
-	// 	try {
-	// 		g.create(x, y, width, height);
-	// 		g.setColor(new Color(200,200,200));
-	// 		g.fillRect(x, y, width, height);
-
-	// 		g.setFont(new Font("Arial", Font.BOLD, 15));
-	// 		g.setColor(Color.BLACK);
-	// 		g.drawString("Want to buy back the house?", x+60, y+60);
-	// 		g.drawString("Chance will arise again after 45 more point.", x+60, y+80);
-
-	// 		// g.drawString("[Y] Yes", x + 80, y + 120);
-  //   	// g.drawString("[N] No", x + 220, y + 120);
-
-	// 		if (gameworld.getController().isKeyYpressed()){
-	// 			gameworld.setAcceptedHouse(true);
-	// 			gameworld.setShowHousePopUp(false);
-	// 		} else if (gameworld.getController().isKeyNpressed()){
-	// 			gameworld.setAcceptedHouse(false);
-	// 			gameworld.setShowHousePopUp(false);
-	// 		}
-
-			
-			
-	// 	} catch (Exception e) {
-	// 		System.out.println("Error drawing the house pop up");
-	// 		e.printStackTrace();
-	// 	}
-	// }
-
-	// private void drawBulletPopUp(Graphics g) {
-	// 	int width = 400;
-	// 	int height = 200;
-	// 	int x = (1000 - 400) / 2; // = 300
-	// 	int y = (1000 - 200) / 2; // = 400
-
-	// 	try {
-	// 		g.create(x, y, width, height);
-	// 		g.setColor(new Color(200,200,200));
-	// 		g.fillRect(x, y, width, height);
-
-	// 		g.setFont(new Font("Arial", Font.BOLD, 15));
-	// 		g.setColor(Color.BLACK);
-	// 		g.drawString("Want to buy to a bigger bullet? (20 points)", x+60, y+60);
-	// 		g.drawString("Chance will arise again after 20 more point.", x+60, y+80);
-
-	// 		// g.setColor(Color.BLACK);
-	// 		// //yes and no "buttons"
-	// 		// g.drawRect(368, 505, 80, 40);
-	// 		// g.drawRect(508, 505, 80, 40);
-	// 		// g.drawString("[Y] Yes", x + 80, y + 130);
-  //   	// g.drawString("[N] No", x + 220, y + 130);
-
-	// 		if (gameworld.getController().isKeyYpressed()){
-	// 			gameworld.setAcceptedBullet(true);
-	// 			gameworld.setShowBulletPopUp(false);
-	// 		} else if (gameworld.getController().isKeyNpressed()){
-	// 			gameworld.setAcceptedBullet(false);
-	// 			gameworld.setShowBulletPopUp(false);
-	// 		}
-			
-	// 	} catch (Exception e) {
-	// 		System.out.println("Error drawing the bullet pop up");
-	// 		e.printStackTrace();
-	// 	}
-	// }
-
-	// public boolean isMouseInsideYesButton(){
-
-	// 	int mouseX = gameworld.getMouse().getMouseX();
-	// 	int mouseY = gameworld.getMouse().getMouseY();
-
-	// 	//System.out.println("mouseX: " + mouseX + "mouseY: " + mouseY);
-
-	// 	boolean clicked = gameworld.getMouse().isMouseClicked();
-
-	// 	// System.out.println("does it contain: " + yesBtn.contains(new Point(mouseX, mouseY)));
-
-	// 	System.out.println("clicked: " + clicked);
-
-	// 	if (clicked && yesBtn.contains(new Point(mouseX, mouseY))){
-	// 		// System.out.println("mouse pressed yes button");
-	// 		return true;
-	// 	}
-
-	// 	// boolean fitsInX = mouseX > 368 && mouseX < 368 + 80;
-	// 	// boolean fitsInY = mouseY > 505 && mouseY < 505 + 40;
-
-	// 	// if(clicked && fitsInX && fitsInY){
-	// 	// 	System.out.println("mouse pressed yes button");
-	// 	// 	return true;
-	// 	// }
-	// 	return false;
-	// }
 
 }
