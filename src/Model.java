@@ -73,6 +73,7 @@ public class Model {
 		enemies.add(new GameObject("ugly2","res/enemies/ugly2.png",70,70,new Point3f(((float)Math.random()*1000 ),900,0), 2));
 
 		int index = new Random().nextInt(enemies.size());
+		System.out.println("random enemy: " + enemies.get(index).getName());
 		return enemies.get(index);
 	}
 
@@ -294,18 +295,6 @@ public class Model {
 	public void setMoney(int newMoney){
 		money = newMoney;
 	}
-	// public int getHumanLife(){
-	// 	return player.getLives();
-	// }
-	// public void setHumanLife(int newHumanLife){
-	// 	player.setLives(newHumanLife);
-	// }
-	// public int getHouseLife(){
-	// 	return house.getLives();
-	// }
-	// public void setHouseLife(int newHouseLife){
-	// 	house.setLives(newHouseLife);
-	// }
 	public boolean getShowHousePopUp(){
 		return showHousePopUp;
 	}

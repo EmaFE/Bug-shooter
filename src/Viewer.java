@@ -62,8 +62,8 @@ public class Viewer extends JPanel {
 	private Image uglyBug2Img;
 	private Image flyImg;
 
-	private ArrayList<Image> healthPlayerImages;
-	private ArrayList<Image> healthHouseImages;
+	private ArrayList<Image> healthPlayerImages = new ArrayList<>();
+	private ArrayList<Image> healthHouseImages = new ArrayList<>();
 
 	private Image gameWonImg;
 	BufferedImage[] gameOverFrames = new BufferedImage[4];
@@ -72,8 +72,8 @@ public class Viewer extends JPanel {
 	
 	Model gameworld = new Model(); 
 	 
-	public Viewer(Model World) {
-		this.gameworld=World;
+	public Viewer(Model world) {
+		this.gameworld=world;
 		File playerTexture = new File(gameworld.getPlayer().getTexture());
 		File houseTexture = new File(gameworld.getHouse().getTexture());
 		File upperBgTexture = new File("res/bgs/grass2.png");
@@ -176,6 +176,7 @@ public class Viewer extends JPanel {
 	private void drawEnemies(int x, int y, int width, int height, String texture, Graphics g) {
 		gameworld.getEnemies().forEach((enemy) ->{
 			int currentPositionInAnimation= ((int) (CurrentAnimationTime%4)*32); //slows down animation so every 10 frames we get another frame so every 100ms 
+			if(enemy.getName() == null || enemy == null) return;
 			switch (enemy.getName()) {
 				case "spider": g.drawImage(spiderImg, x, y, x+width, y+height, currentPositionInAnimation, 0, currentPositionInAnimation+31, 32, null); break;
 				case "fly": g.drawImage(flyImg, x, y, x+width, y+height, currentPositionInAnimation, 0, currentPositionInAnimation+31, 32, null); break;
@@ -299,14 +300,13 @@ public class Viewer extends JPanel {
 
 	public void loadEnemiesImages(){
 		gameworld.getEnemies().forEach((enemy) ->{
-			String enemyName = enemy.getName();
 			try {
-				switch (enemyName){
-				case "spider": ImageIO.read(new File("res/enemies/spider.png"));break;
-				case "fly": ImageIO.read(new File("res/enemies/fly.png"));break;
-				case "ant": ImageIO.read(new File("res/enemies/ant.png"));break;
-				case "ugly1": ImageIO.read(new File("res/enemies/spider.png"));break;
-				case "ugly2": ImageIO.read(new File("res/enemies/spider.png"));break;
+				switch (enemy.getName()){
+				case "spider": ImageIO.read(new File(enemy.getTexture()));break;
+				case "fly": ImageIO.read(new File(enemy.getTexture()));break;
+				case "ant": ImageIO.read(new File(enemy.getTexture()));break;
+				case "ugly1": ImageIO.read(new File(enemy.getTexture()));break;
+				case "ugly2": ImageIO.read(new File(enemy.getTexture()));break;
 				default: System.out.println("No picture to load for this enemy");break;
 			}
 				
