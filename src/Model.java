@@ -38,7 +38,7 @@ public class Model {
 	//some bugs have 2 lives, so they need to be shot twice + some are faster
 	private CopyOnWriteArrayList<GameObject> enemiesList  = new CopyOnWriteArrayList<GameObject>();
 	private CopyOnWriteArrayList<GameObject> bulletList  = new CopyOnWriteArrayList<GameObject>();
-	private int humanLife = 1;
+	private int humanLife = 6;
 	private int houseLife = 10;
 	//you get +1 for each bug you kill, so even if you lose your house, you can buy it back if you kill enough bugs while trying to protect your house
 	private int money = 0;
@@ -140,21 +140,9 @@ public class Model {
 		float xCenter = enemy.getCentre().getX() + enemy.getWidth()/2.0f;
 		float yCenter = enemy.getCentre().getY() + enemy.getHeight()/2.0f;
 
-		float enemyTopLeft = enemy.getCentre().getX();
-		float enemyTopRight = enemy.getCentre().getX() + enemy.getWidth();
-		//float enemyTopLeft = enemy.getCentre().getY();
-		float enemyBottomLeft = enemy.getCentre().getY() + enemy.getHeight();
-		//float enemyBottomRight = enemy.getCentre().getY() + enemy.getHeight();
-
-		float houseTopLeft = 45;
-		float houseTopRight = 45 + 125;
-		float houseBottomLeft = 75;
-		float houseBottomRight = 75 + 185; 
-
-
 		//collision if it's underneath the bottom line of the house
 		//doesnt work if enemies come from the side
-		if(xCenter >= 45 && xCenter <= 45 + 125 && yCenter <= 75 + 185){
+		if(xCenter >= 45 && xCenter <= 45 + 125 && yCenter <= 75+185 && houseLife > 0){
 			houseLife--;
 			return true;
 		}
@@ -172,7 +160,8 @@ public class Model {
 
 		for (GameObject enemy : enemiesList){  
 			//have 1 in 3 enemies traget the house, the rest target the player
-			//chnage back to 3, 1 is for testign purposes
+			//chnage back to 3, 1 is after testign for house collisions
+			
 			if(enemiesList.indexOf(enemy) % 2 == 0){
 
 			float targetLocationX = 45 + 135/2;
@@ -186,7 +175,14 @@ public class Model {
 			if (length != 0) {
 					dx /= length;
 			}
+
+			// System.out.println("lenght: " + length);
 			enemy.getCentre().ApplyVector(new Vector3f(dx , -1, 0));
+
+				//remove if collion happens or it's at the top of the screen
+			if (collision(enemy) || enemy.getCentre().getY() <= 10.0f){
+				enemiesList.remove(enemy);
+			}
 
 			} else{
 				float targetLocationX = player.getCentre().getX();
@@ -205,7 +201,7 @@ public class Model {
 				enemy.getCentre().ApplyVector(new Vector3f(dx , -1, 0));
 
 				//remove if collion happens or it's at the top of the screen
-				if (collision(enemy) || enemy.getCentre().getY() <= 1.0f){
+				if (collision(enemy) || enemy.getCentre().getY() <= 10.0f){
 					enemiesList.remove(enemy);
 				}
 			}

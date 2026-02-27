@@ -1,0 +1,13 @@
+#VS Code
+.vscode/
+
+# Metals
+.metals/
+.bloop/
+
+#Java build output
+bin/
+out/
+target/
+
+.DS_Store
