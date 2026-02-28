@@ -111,8 +111,11 @@ public class Model {
 	}
 
 	private void gameLogic() { 
+		
+		if(enemiesList.size() < 6){
 			while(enemiesList.size() < 6){
 			enemiesList.add(generateEnemy());
+			}
 		}
 		// this is a way to increment across the array list data structure 
 
