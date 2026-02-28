@@ -229,8 +229,11 @@ public class Viewer extends JPanel {
 	}
 
 	private void drawHealthPlayer(Graphics g){
+		
 		healthPlayerImages.forEach((image) ->{
 			int index = healthPlayerImages.indexOf(image);
+			// System.out.println("player life: " + gameworld.getPlayer().getLives());
+			// System.out.println("index of image: " + healthPlayerImages.indexOf(image));
 			if( index == gameworld.getPlayer().getLives()){
 				g.drawImage(image, 800,15, 800+54, 15+17, 0 , 0, 54, 17, null); 
 			}
@@ -302,11 +305,11 @@ public class Viewer extends JPanel {
 		gameworld.getEnemies().forEach((enemy) ->{
 			try {
 				switch (enemy.getName()){
-				case "spider": ImageIO.read(new File(enemy.getTexture()));break;
-				case "fly": ImageIO.read(new File(enemy.getTexture()));break;
-				case "ant": ImageIO.read(new File(enemy.getTexture()));break;
-				case "ugly1": ImageIO.read(new File(enemy.getTexture()));break;
-				case "ugly2": ImageIO.read(new File(enemy.getTexture()));break;
+				case "spider": spiderImg = ImageIO.read(new File(enemy.getTexture()));break;
+				case "fly": flyImg = ImageIO.read(new File(enemy.getTexture()));break;
+				case "ant": antImg = ImageIO.read(new File(enemy.getTexture()));break;
+				case "ugly1": uglyBug1Img = ImageIO.read(new File(enemy.getTexture()));break;
+				case "ugly2": uglyBug2Img = ImageIO.read(new File(enemy.getTexture()));break;
 				default: System.out.println("No picture to load for this enemy");break;
 			}
 				
@@ -319,28 +322,26 @@ public class Viewer extends JPanel {
 	}
 
 	public void loadHealthHouseImages(){
-		int houseLife = gameworld.getHouse().getLives();
-		healthHouseImages.forEach((health) ->{
-			File healthHouseTexture = new File("res/houseHealth/VIDA_" + houseLife +".png");
-			try {
-				health = ImageIO.read(healthHouseTexture);
-			} catch (Exception e) {
-				System.out.println("House health picture not found");
-				e.printStackTrace();
+			for(int i = 0; i < 11; i++){
+				File healthHouseTexture = new File("res/houseHealth/VIDA_" + i + ".png");
+				try {
+					healthHouseImages.add(ImageIO.read(healthHouseTexture));
+				} catch (Exception e) {
+					System.out.println("House health picture" + i + "not found");
+					e.printStackTrace();
+				} 
 			}
-		});
 	}
 
 	public void loadHealthPlayerImages(){
-		int playerLife = gameworld.getPlayer().getLives();
-		healthPlayerImages.forEach((health) ->{
-			File healthPlayerTexture = new File("res/playerHealth/" + playerLife +".png");
+		for(int i = 0; i < 7; i++){
+			File healthPlayerTexture = new File("res/playerHealth/" + i + ".png");
 			try {
-				health = ImageIO.read(healthPlayerTexture);
+				healthPlayerImages.add(ImageIO.read(healthPlayerTexture));
 			} catch (Exception e) {
-				System.out.println("Player health picture not found");
+				System.out.println("Player health picture" + i + "not found");
 				e.printStackTrace();
 			}
-		});
+		}
 	}
 }

@@ -43,6 +43,7 @@ public class GameObject {
 		 	this.height=height;
 		 	this.centre =centre;
 			this.lives = lives;
+			this.name = name;
 		}
 
 	public Point3f getCentre() {
