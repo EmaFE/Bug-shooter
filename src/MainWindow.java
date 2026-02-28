@@ -170,7 +170,7 @@ public class MainWindow {
 				canvas.addMouseListener(controllerM);
 				canvas.requestFocusInWindow();
 
-				gameworld.setAcceptedHouse(true);
+				gameworld.setAcceptedHouse(false);
 				gameworld.setShowHousePopUp(false);
 			}
 		}

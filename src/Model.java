@@ -32,6 +32,7 @@ import util.Vector3f;
 
 public class Model {
 	
+	private Random random = new Random();
 	private GameObject player;
 	private GameObject house;
 	private Controller controller = Controller.getInstance();
@@ -54,6 +55,13 @@ public class Model {
 
 	private boolean gameWon = false;
 
+	private Random generateRandom(){
+		if (random == null){
+			random = new Random();
+		}
+		return random;
+	}
+
 	public GameObject generateEnemy(){
 		/*
 		2 of each 
@@ -61,19 +69,19 @@ public class Model {
 		the ones with 2 lives: idle bugs
 		*/
 		ArrayList<GameObject> enemies = new ArrayList<>();
-		enemies.add(new GameObject("spider","res/enemies/spider.png",70,70,new Point3f(((float)Math.random()*1000 ),900,0), 1));
-		enemies.add(new GameObject("spider","res/enemies/spider.png",70,70,new Point3f(((float)Math.random()*1000 ),900,0), 1));
-		enemies.add(new GameObject("fly","res/enemies/fly.png",50,50,new Point3f(((float)Math.random()*1000 ),900,0), 1));
-		enemies.add(new GameObject("fly","res/enemies/fly.png",50,50,new Point3f(((float)Math.random()*1000 ),900,0), 1));
-		enemies.add(new GameObject("ant","res/enemies/ant.png",50,50,new Point3f(((float)Math.random()*1000 ),900,0), 1));
-		enemies.add(new GameObject("ant","res/enemies/ant.png",50,50,new Point3f(((float)Math.random()*1000 ),900,0), 1));
-		enemies.add(new GameObject("ugly1","res/enemies/ugly1.png",70,70,new Point3f(((float)Math.random()*1000 ),900,0), 2));
-		enemies.add(new GameObject("ugly1","res/enemies/ugly1.png",70,70,new Point3f(((float)Math.random()*1000 ),900,0), 2));
-		enemies.add(new GameObject("ugly2","res/enemies/ugly2.png",70,70,new Point3f(((float)Math.random()*1000 ),900,0), 2));
-		enemies.add(new GameObject("ugly2","res/enemies/ugly2.png",70,70,new Point3f(((float)Math.random()*1000 ),900,0), 2));
+		enemies.add(new GameObject("spider","res/enemies/spider.png",70,70,new Point3f(random.nextFloat()*1000,random.nextFloat()*601 + 400,0), 1));
+		enemies.add(new GameObject("spider","res/enemies/spider.png",70,70,new Point3f(random.nextFloat()*1000,random.nextFloat()*601 + 400,0), 1));
+		enemies.add(new GameObject("fly","res/enemies/fly.png",50,50,new Point3f(random.nextFloat()*1000,random.nextFloat()*601 + 400,0), 1));
+		enemies.add(new GameObject("fly","res/enemies/fly.png",50,50,new Point3f(random.nextFloat()*1000,random.nextFloat()*601 + 400,0), 1));
+		enemies.add(new GameObject("ant","res/enemies/ant.png",50,50,new Point3f(random.nextFloat()*1000,random.nextFloat()*601 + 400,0), 1));
+		enemies.add(new GameObject("ant","res/enemies/ant.png",32,32,new Point3f(random.nextFloat()*1000,random.nextFloat()*601 + 400,0), 1));
+		enemies.add(new GameObject("ugly1","res/enemies/ugly1.png",70,70,new Point3f(random.nextFloat()*1000,random.nextFloat()*601 + 400,0), 2));
+		enemies.add(new GameObject("ugly1","res/enemies/ugly1.png",70,70,new Point3f(random.nextFloat()*1000,random.nextFloat()*601 + 400,0), 2));
+		enemies.add(new GameObject("ugly2","res/enemies/ugly1.png",70,70,new Point3f(random.nextFloat()*1000,random.nextFloat()*601 + 400,0), 2));
+		enemies.add(new GameObject("ugly2","res/enemies/ugly1.png",70,70,new Point3f(random.nextFloat()*1000,random.nextFloat()*601 + 400,0), 2));
 
-		int index = new Random().nextInt(enemies.size());
-		//System.out.println("random enemy: " + enemies.get(index).getName());
+		int index = random.nextInt(enemies.size());
+		//System.out.println("random enemy " +index+": " + enemies.get(index).getCentre().getX());
 		return enemies.get(index);
 	}
 
@@ -83,7 +91,6 @@ public class Model {
 		player= new GameObject("player","res/npcmaleidle.png",32,86,new Point3f(500,165,0), 6);
 		house= new GameObject("house","res/bgs/house.png", 125, 185, new Point3f(45,75,0), 10);
 		//Enemies  starting with four ''
-
 		while(enemiesList.size() < 6){
 			enemiesList.add(generateEnemy());
 		}
@@ -104,6 +111,9 @@ public class Model {
 	}
 
 	private void gameLogic() { 
+			while(enemiesList.size() < 6){
+			enemiesList.add(generateEnemy());
+		}
 		// this is a way to increment across the array list data structure 
 
 		//check if they hit anything 
@@ -123,26 +133,24 @@ public class Model {
 			}
 		}
 
-		//modify this to 2 adn remove > 0 for testing purposes
-		if(money >= 20 && money % 20 == 0 && getShowOnceB() == false && !getShowBulletPopUp()){
+		if(money >= 20 && money % 20 == 0 && showOnceB == false && !getShowBulletPopUp()){
 			setShowOnceB(true);
 			setShowBulletPopUp(true);
 			setMoney(money - 20);
 		}
 
-		//chnage 0 back to 80 for money > 0 when not testing in game
-		if(money > 80 && money % 2 == 0 && getShowOnceH() == false && !getShowHousePopUp() && getHouse().getLives() == 0){
-			setShowOnceH(true);
+		if(money > 80 && money % 20 == 0  && !getShowHousePopUp() && getHouse().getLives() <= 0){
+			// setShowOnceH(true);
 			setShowHousePopUp(true);
 			setMoney(money - 80);
 		}
 
 		//implement logic for when the game is over (human life == 0) -> big bug crawls from bottom screen + "GAME OVER" middle screen
-		if (player.getLives() == 0){
+		if (player.getLives() <= 0){
 			setGameOver(true);
 		}
 
-		if(getMoney() == 100){
+		if(getMoney() >= 100 && house.getLives() >= 0){
 			setGameWon(true);
 		}
 			
@@ -153,16 +161,23 @@ public class Model {
 		float xCenter = enemy.getCentre().getX() + enemy.getWidth()/2.0f;
 		float yCenter = enemy.getCentre().getY() + enemy.getHeight()/2.0f;
 
-		//collision if it's underneath the bottom line of the house
-		//doesnt work if enemies come from the side
-		if(xCenter >= house.getCentre().getX() && xCenter <= house.getCentre().getX() + house.getWidth() && yCenter <= house.getCentre().getY() + house.getHeight() && house.getLives() > 0){
-			house.setLives(house.getLives() - 1);
+		//collision if it's within the house
+		if(xCenter >= house.getCentre().getX() && xCenter <= house.getCentre().getX() + house.getWidth() && yCenter>=house.getCentre().getY() && yCenter <= house.getCentre().getY() + house.getHeight() && house.getLives() > 0){
+			if(enemy.getLives() == 2){
+				house.setLives(house.getLives() - 2);
+			} else {
+				house.setLives(house.getLives() - 1);
+			}
 			return true;
 		}
 		
-		//collission with the player if it's underneath the player
-		if(xCenter >= player.getCentre().getX() && xCenter <= player.getCentre().getX() + player.getWidth() && yCenter <= player.getCentre().getY() + player.getHeight() && player.getLives() > 0){
-			player.setLives(player.getLives() - 1);
+		//collission with the player if it's within the player
+		if(xCenter >= player.getCentre().getX() && xCenter <= player.getCentre().getX() + player.getWidth() && yCenter >= player.getCentre().getY() && yCenter <= player.getCentre().getY() + player.getHeight() && player.getLives() > 0){
+			if(enemy.getLives() == 2){
+				player.setLives(player.getLives() - 2);
+			} else {
+				player.setLives(player.getLives() - 1);
+			}
 			return true;
 		} 
 

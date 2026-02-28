@@ -158,6 +158,7 @@ public class Viewer extends JPanel {
 
 		if(gameworld.isAcceptedHouse()){
 			gameworld.getHouse().setLives(10);
+			gameworld.setAcceptedHouse(false);
 		};
 		//change back 
 		gameworld.getBullets().forEach((bullet) ->{ 
@@ -168,21 +169,24 @@ public class Viewer extends JPanel {
 			}	 
 		}); 
 		 
-		gameworld.getEnemies().forEach((enemy) ->{
-			drawEnemies((int) enemy.getCentre().getX(), (int) enemy.getCentre().getY(), (int) enemy.getWidth(), (int) enemy.getHeight(), enemy.getTexture(),g);	 
-	  }); 
+		drawEnemies(g);
 	}}
 
-	private void drawEnemies(int x, int y, int width, int height, String texture, Graphics g) {
+	private void drawEnemies(Graphics g) {
 		gameworld.getEnemies().forEach((enemy) ->{
-			int currentPositionInAnimation= ((int) (CurrentAnimationTime%4)*32); //slows down animation so every 10 frames we get another frame so every 100ms 
+			int currentPositionInAnimation1= ((int) (CurrentAnimationTime / 10 %3)*32); 
+			int currentPositionInAnimation2= ((int) (CurrentAnimationTime / 5 %1)*32); 
+			int x = (int)enemy.getCentre().getX();
+			int y = (int)enemy.getCentre().getY();
+			int width = enemy.getWidth();
+			int height = enemy.getHeight();
 			if(enemy.getName() == null || enemy == null) return;
 			switch (enemy.getName()) {
-				case "spider": g.drawImage(spiderImg, x, y, x+width, y+height, currentPositionInAnimation, 0, currentPositionInAnimation+31, 32, null); break;
-				case "fly": g.drawImage(flyImg, x, y, x+width, y+height, currentPositionInAnimation, 0, currentPositionInAnimation+31, 32, null); break;
-				case "ant": g.drawImage(antImg, x, y, x+width, y+height, currentPositionInAnimation, 0, currentPositionInAnimation+31, 32, null); break;
-				case "ugly1": g.drawImage(uglyBug1Img, x, y, x+width, y+height, currentPositionInAnimation, 0, currentPositionInAnimation+31, 32, null); break;
-				case "ugly2": g.drawImage(uglyBug2Img, x, y, x+width, y+height, currentPositionInAnimation, 0, currentPositionInAnimation+31, 32, null); break;
+				case "spider": {g.drawImage(spiderImg, x, y, x+width, y+height, currentPositionInAnimation1, 0, currentPositionInAnimation1+31, 32, null); break;}
+				case "fly": {g.drawImage(flyImg, x, y, x+width, y+height, currentPositionInAnimation1, 0, currentPositionInAnimation1+31, 32, null); break;}
+				case "ant": {g.drawImage(antImg, x, y, x+width, y+height,0,  currentPositionInAnimation2, 32, currentPositionInAnimation2+32, null); break;}
+				case "ugly1": {g.drawImage(uglyBug1Img, x, y, x+width, y+height, 0, 0, 170, 200, null); break;}
+				case "ugly2":{ g.drawImage(uglyBug2Img, x, y, x+width, y+height, 0, 200, 170, 400, null); break;}
 				default: break;
 			}
 		});				
@@ -203,15 +207,11 @@ public class Viewer extends JPanel {
 	private void drawPlayer(int x, int y, int width, int height, String texture,Graphics g) { 
 			//The spirte is 32x32 pixel wide and 4 of them are placed together so we need to grab a different one each time 
 			//remember your training :-) computer science everything starts at 0 so 32 pixels gets us to 31  
-			int currentPositionInAnimation= ((int) ((CurrentAnimationTime%30)/10))*32; //slows down animation so every 10 frames we get another frame so every 100ms 
+			int currentPositionInAnimation= ((int) ((CurrentAnimationTime%30)/20))*32; //slows down animation so every 10 frames we get another frame so every 100ms 
 			g.drawImage(playerImg, x,y, x+width, y+height, currentPositionInAnimation  , 0, currentPositionInAnimation+31, 32, null); 
 		} 
 		 
-		//g.drawImage(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, observer));
-		//Lighnting Png from https://opengameart.org/content/animated-spaceships  its 32x32 thats why I know to increament by 32 each time 
-	
-
-	private void drawUpperBackground(Graphics g){
+		private void drawUpperBackground(Graphics g){
 		g.drawImage(upperBgImg, 0,0, 1000, 250, 0 , 300, 300, 480, null); 
 	}
 
@@ -267,7 +267,7 @@ public class Viewer extends JPanel {
 		 	int cols = 1536 / fwidth; //=6 cols
 			int ftotal = cols * (1280 / fheight); //=30 frames
 
-			int findex = (int) ((CurrentAnimationTime) % ftotal);
+			int findex = (int) ((CurrentAnimationTime/5) % ftotal);
 
 			int srcX = (findex % cols) * fwidth;
 			int srcY = (findex / cols) * fheight;
