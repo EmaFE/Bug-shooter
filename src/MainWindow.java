@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import util.UnitTests;
 
@@ -51,9 +52,10 @@ public class MainWindow {
 	 private static Viewer canvas = new  Viewer(gameworld);
 	 private static Controller controllerK = Controller.getInstance(); 
 	 private static MouseListener controllerM = Mouse.getInstance();
-	 private static int TargetFPS = 100;
+	 private static int TargetFPS = 80;
 	 private static boolean startGame= false; 
 	 private JLabel BackgroundImageForStartMenu;
+	 private static Timer framerate;
 	  
 	public MainWindow() {
 			frame.setSize(1000, 1000);  // you can customise this later and adapt it to change on size.  
@@ -96,8 +98,10 @@ public class MainWindow {
 	    frame.setVisible(true);   
 	}
 
+
 	public static void main(String[] args) {
 		MainWindow hello = new MainWindow();  //sets up environment 
+
 		while(true){  //not nice but remember we do just want to keep looping till the end.  // this could be replaced by a thread but again we want to keep things simple 
 		//swing has timer class to help us time this but I'm writing my own, you can of course use the timer, but I want to set FPS and display it 
 			
@@ -151,28 +155,18 @@ public class MainWindow {
 		}
 
 		if(gameworld.getShowHousePopUp()){
-			PopUp popup = new PopUp(frame, "Do you want buy back your house?", "[alt + y] Yes", "[alt + n] No");
+			PopUp popup = new PopUp(frame, "Buy back your house.", "[alt + y] Yes");
 			popup.setVisible(true); 
 			
-			if (popup.isAccepted()) {
-				System.out.println("Pressed Yes");
-				canvas.setVisible(true);
-				canvas.addKeyListener(controllerK);
-				canvas.addMouseListener(controllerM);
-				canvas.requestFocusInWindow();
+			System.out.println("Pressed Yes");
+			canvas.setVisible(true);
+			canvas.addKeyListener(controllerK);
+			canvas.addMouseListener(controllerM);
+			canvas.requestFocusInWindow();
 
-				gameworld.setAcceptedHouse(true);
-				gameworld.setShowHousePopUp(false);
-			} else {
-				System.out.println("Pressed No");
-				canvas.setVisible(true);
-				canvas.addKeyListener(controllerK);
-				canvas.addMouseListener(controllerM);
-				canvas.requestFocusInWindow();
-
-				gameworld.setAcceptedHouse(false);
-				gameworld.setShowHousePopUp(false);
-			}
+			gameworld.setAcceptedHouse(true);
+			gameworld.setShowHousePopUp(false);
+		
 		}
 		
 		// view update 
@@ -180,6 +174,6 @@ public class MainWindow {
 		
 		// Both these calls could be setup as  a thread but we want to simplify the game logic for you.  
 		//score update  
-		 frame.setTitle("Money =  "+ gameworld.getMoney()); 
+		 frame.setTitle("Money =  $"+ gameworld.getMoney()); 
 	}
 }

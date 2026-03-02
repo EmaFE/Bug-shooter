@@ -175,7 +175,7 @@ public class Viewer extends JPanel {
 	private void drawEnemies(Graphics g) {
 		gameworld.getEnemies().forEach((enemy) ->{
 			int currentPositionInAnimation1= ((int) (CurrentAnimationTime / 10 %3)*32); 
-			int currentPositionInAnimation2= ((int) (CurrentAnimationTime / 5 %1)*32); 
+			int currentPositionInAnimation2= ((int) (CurrentAnimationTime / 5 %1)*20); 
 			int x = (int)enemy.getCentre().getX();
 			int y = (int)enemy.getCentre().getY();
 			int width = enemy.getWidth();
@@ -184,7 +184,7 @@ public class Viewer extends JPanel {
 			switch (enemy.getName()) {
 				case "spider": {g.drawImage(spiderImg, x, y, x+width, y+height, currentPositionInAnimation1, 0, currentPositionInAnimation1+31, 32, null); break;}
 				case "fly": {g.drawImage(flyImg, x, y, x+width, y+height, currentPositionInAnimation1, 0, currentPositionInAnimation1+31, 32, null); break;}
-				case "ant": {g.drawImage(antImg, x, y, x+width, y+height,0,  currentPositionInAnimation2, 32, currentPositionInAnimation2+32, null); break;}
+				case "ant": {g.drawImage(antImg, x, y, x+width, y+height,0,  currentPositionInAnimation2, 32, currentPositionInAnimation2+2077, null); break;}
 				case "ugly1": {g.drawImage(uglyBug1Img, x, y, x+width, y+height, 0, 0, 170, 200, null); break;}
 				case "ugly2":{ g.drawImage(uglyBug2Img, x, y, x+width, y+height, 0, 200, 170, 400, null); break;}
 				default: break;

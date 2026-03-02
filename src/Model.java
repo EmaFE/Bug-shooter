@@ -111,7 +111,7 @@ public class Model {
 	}
 
 	private void gameLogic() { 
-		
+
 		if(enemiesList.size() < 6){
 			while(enemiesList.size() < 6){
 			enemiesList.add(generateEnemy());
@@ -136,24 +136,23 @@ public class Model {
 			}
 		}
 
-		if(money >= 20 && money % 20 == 0 && showOnceB == false && !getShowBulletPopUp()){
+		if(money >= 40 && showOnceB == false && !getShowBulletPopUp()){
 			setShowOnceB(true);
 			setShowBulletPopUp(true);
-			setMoney(money - 20);
+			setMoney(money - 40);
 		}
 
-		if(money > 80 && money % 20 == 0  && !getShowHousePopUp() && getHouse().getLives() <= 0){
+		if(money >= 80 && !getShowHousePopUp() && house.getLives() <= 0 && !acceptedHouse){
 			// setShowOnceH(true);
 			setShowHousePopUp(true);
 			setMoney(money - 80);
 		}
 
-		//implement logic for when the game is over (human life == 0) -> big bug crawls from bottom screen + "GAME OVER" middle screen
 		if (player.getLives() <= 0){
 			setGameOver(true);
 		}
 
-		if(getMoney() >= 100 && house.getLives() >= 0){
+		if(getMoney() >= 100 && house.getLives() > 0){
 			setGameWon(true);
 		}
 			
@@ -191,9 +190,8 @@ public class Model {
 
 		for (GameObject enemy : enemiesList){  
 			//have 1 in 3 enemies traget the house, the rest target the player
-			//chnage back to 3, 1 is after testign for house collisions
 			
-			if(enemiesList.indexOf(enemy) % 3 == 0 && getHouse().getLives() !=  0){
+			if(enemiesList.indexOf(enemy) % 3 == 0 && getHouse().getLives() >  0){
 
 			float targetLocationX = 45 + 135/2;
 			float targetLocationY = 75 + 185/2;
